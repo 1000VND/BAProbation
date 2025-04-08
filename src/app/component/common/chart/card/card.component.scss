@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.card-item {
+    color: #ffffff;
+    border-radius: 0.5rem;
+    min-width: 260px;
+
+    p {
+        margin-top: 1rem;
+        margin-bottom: 0;
+    }
+}

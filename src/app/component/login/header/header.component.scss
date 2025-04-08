@@ -1,0 +1,210 @@
+/* General Styles */
+$hotline-color: #44b5fe;
+
+a {
+  text-decoration: none;
+  color: #1660a0;
+}
+
+button#dropdownMenuButton,
+button#dropdownMenuButtonMobile {
+  padding: 0;
+}
+
+/* Angular Deep Host Styles */
+:host ::ng-deep .btn.show {
+  border: none;
+}
+
+/* Sizes */
+.icon-dropdown-menu,
+.icon-dropdown-item {
+  width: 1.5rem;
+}
+
+.logo-ba {
+  width: 7rem;
+}
+
+/* Grid Layout */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  padding: 0;
+}
+
+.grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.last-item {
+  align-items: center;
+  column-gap: 25px;
+}
+
+/* Drawer and Overlay */
+.drawer-container {
+  height: 65px;
+  position: relative;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out;
+  display: none;
+}
+
+/* Slide-in Menu */
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100vh;
+  background: #333;
+  color: white;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+  z-index: 20;
+  display: none;
+}
+
+.menu.open {
+  transform: translateX(0);
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.menu ul li:first-child {
+  margin: 15px 0 0;
+  padding-top: 10px;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 0;
+}
+
+/* Buttons */
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.menu-btn,
+.menu-btn-1 {
+  width: 45px;
+  height: 45px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-btn i,
+.menu-btn-1 i {
+  font-size: 24px;
+  color: #000;
+}
+
+.menu-btn-1 {
+  display: none;
+}
+
+.hotline-btn,
+.hotline-btn-drawer {
+  border-radius: 2rem;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  color: $hotline-color;
+  border-color: $hotline-color;
+}
+
+.hotline-btn:hover {
+  background-color: $hotline-color;
+  color: white;
+  border-color: $hotline-color;
+}
+
+.dropdown-toggle {
+  color: #1660a0;
+  font-weight: 500;
+}
+
+/* Media Queries */
+@media (min-width: 769px) and (max-width: 1320px) {
+  .grid-item.dropdown {
+    justify-content: space-between;
+    width: 100px;
+  }
+
+  .menu {
+    display: block;
+    width: 300px;
+  }
+
+  .overlay {
+    display: block;
+  }
+}
+
+@media (max-width: 1788px) {
+  .dropdown-toggle>span {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .grid-container {
+    display: none;
+  }
+
+  .menu-btn-1 {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .drawer-container {
+    padding: 0 10px;
+    height: 62.27px;
+  }
+
+  .menu {
+    display: block;
+    width: 50%;
+  }
+
+  .overlay {
+    display: block;
+  }
+
+  .hotline-btn>span,
+  .dropdown-toggle>span {
+    display: block;
+  }
+}

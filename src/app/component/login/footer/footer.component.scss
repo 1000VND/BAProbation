@@ -1,0 +1,52 @@
+* {
+    font-size: 15px;
+}
+
+h5 {
+    color: #3776a7;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+p {
+    color: #8f8f97;
+    text-align: start;
+}
+
+.app-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-container {
+    margin: 0;
+}
+
+.img-app-store {
+    object-fit: cover;
+    width: 135px;
+    height: auto;
+    object-position: center center;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.social-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+@media (min-width: 1200px) {
+    .col {
+        flex: 1 0 0%;
+        width: 100%;
+        max-width: 100%;
+    }
+}
