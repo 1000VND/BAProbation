@@ -1,7 +1,16 @@
+:root {
+    --p-primary-color: #007bff !important;
+    --p-primary-hover-color: #007bff !important;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f1f5f9 !important;
     overflow-x: hidden;
+}
+
+.gap-1 {
+    gap: 0.25rem !important;
 }
 
 .gap-2 {

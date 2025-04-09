@@ -1,0 +1,119 @@
+<div class="container-fluid p-0 m-0">
+  <div class="shadow bg-white rounded h-100 p-2 m-2">
+    <h5 class="text-primary font-weight-bold">QUẢN TRỊ NHÓM PHƯƠNG TIỆN</h5>
+
+    <div class="row gap-2 m-0">
+      <div class="col-12 col-cus-3 d-flex p-0">
+        <div class="card">
+          <div class="card-header">
+            <h6 class="text-primary font-weight-bold m-0">Danh sách người dùng ({{0}})</h6>
+          </div>
+          <div class="card-body p-0">
+            <div class="autocomplete-container" style="font-size: .875rem;">
+              <div class="input-wrapper m-2">
+                <input type="text" [(ngModel)]="searchUser" (input)="onSearchChange()" class="form-control"
+                  placeholder="Tìm người dùng">
+                <i class="fa fa-search search-icon"></i>
+              </div>
+
+              <div class="autocomplete-list" [ngClass]="{'d-flex justify-content-center': isUserEmpty}">
+                <div class="item mx-0 p-2" [ngClass]="i % 2 == 1 ? 'bg-grey' : 'bg-white'"
+                  *ngFor="let result of filterUser;let i=index" (click)="onOptionSelected(result)">
+                  <span>{{result.fullname}} ({{result.username}})</span>
+                </div>
+
+                <div *ngIf="isUserEmpty" class="d-flex justify-content-center align-items-center">
+                  <span>
+                    <i class="fa-solid fa-box-open"></i> Không có dữ liệu
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-cus-3 p-0">
+        <div class="card">
+          <div class="card-header">
+            <h6 class="text-primary font-weight-bold m-0">Chọn nhóm cho người dùng ({{45}})</h6>
+          </div>
+          <div class="card-body p-0">
+            <div class="autocomplete-container">
+              <div class="input-wrapper m-2">
+                <input type="text" [(ngModel)]="searchUser" (input)="onSearchChange()" class="form-control"
+                  placeholder="Tìm nhóm phương tiện">
+                <i class="fa fa-search search-icon"></i>
+              </div>
+
+              <div class="autocomplete-list">
+                <div class="mx-2" style="font-size: .875rem;">
+                  <p-tree [value]="files" selectionMode="checkbox" styleClass="w-full md:w-[30rem]"
+                    [(selection)]="selectedFiles" />
+                </div>
+
+                <div *ngIf="isUserEmpty" class="d-flex justify-content-center align-items-center">
+                  <span>
+                    <i class="fa-solid fa-box-open"></i> Không có dữ liệu
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-auto p-0">
+        <div class="transfer d-flex flex-column justify-content-center gap-2 h-100">
+          <button type="button" class="btn btn-transfer text-white">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+
+          <button type="button" class="btn btn-transfer text-white">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="col col-cus-3 p-0">
+        <div class="card">
+          <div class="card-header">
+            <h6 class="text-primary font-weight-bold m-0">Nhóm đã gán cho người dùng ({{1}})</h6>
+          </div>
+          <div class="card-body p-0">
+            <div class="autocomplete-container">
+              <div class="input-wrapper m-2">
+                <input type="text" [(ngModel)]="searchUser" (input)="onSearchChange()" class="form-control"
+                  placeholder="Tìm nhóm phương tiện">
+                <i class="fa fa-search search-icon"></i>
+              </div>
+
+              <div class="autocomplete-list">
+                <div class="mx-2" style="font-size: .875rem;">
+                  <p-tree [value]="files" selectionMode="checkbox" styleClass="w-full md:w-[30rem]"
+                    [(selection)]="selectedFiles" />
+                </div>
+
+                <div *ngIf="isUserEmpty" class="d-flex justify-content-center align-items-center">
+                  <span>
+                    <i class="fa-solid fa-box-open"></i> Không có dữ liệu
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center gap-2 my-3 mx-0">
+      <button type="button" class="btn btn-sm text-white" style="background-color: #79808c;">
+        <i class="fa-solid fa-floppy-disk"></i> Lưu
+      </button>
+
+      <button type="button" class="btn btn-sm text-white" style="background-color: #79808c;">
+        <i class="fa-solid fa-xmark"></i> Hủy
+      </button>
+    </div>
+  </div>
+</div>

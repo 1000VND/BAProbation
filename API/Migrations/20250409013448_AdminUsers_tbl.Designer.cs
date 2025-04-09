@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250408161529_update_AdminUser_Tbl")]
-    partial class update_AdminUser_Tbl
+    [Migration("20250409013448_AdminUsers_tbl")]
+    partial class AdminUsers_tbl
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,7 +140,7 @@ namespace API.Migrations
 
                     b.HasKey("PK_UserID");
 
-                    b.ToTable("Users", "Admin");
+                    b.ToTable("Admin.Users", "dbo");
                 });
 #pragma warning restore 612, 618
         }

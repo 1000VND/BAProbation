@@ -24,9 +24,12 @@ import { HeaderComponent } from "./component/login/header/header.component";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { provideToastr, ToastrModule } from "ngx-toastr";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { HttpLoaderFactory } from "./app.config";
+import { VehicleGroupManageComponent } from "./component/vehicle-group-manage/vehicle-group-manage.component";
+import { TreeModule } from 'primeng/tree';
+import { providePrimeNG } from "primeng/config";
+import Aura from '@primeng/themes/aura';
 
 @NgModule({
     declarations: [
@@ -44,6 +47,7 @@ import { HttpLoaderFactory } from "./app.config";
         FooterComponent,
         HeaderComponent,
         HomeComponent,
+        VehicleGroupManageComponent,
         AppComponent
     ],
     imports: [
@@ -54,6 +58,7 @@ import { HttpLoaderFactory } from "./app.config";
         NgSelectModule,
         DxPieChartModule,
         DxChartModule,
+        TreeModule,
         TranslateModule.forRoot(),
         RouterModule.forRoot(routes),
     ],
@@ -66,7 +71,8 @@ import { HttpLoaderFactory } from "./app.config";
         DxChartModule,
         RouterModule,
         TranslateModule,
-        ToastrModule
+        ToastrModule,
+        TreeModule,
     ],
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
@@ -89,7 +95,15 @@ import { HttpLoaderFactory } from "./app.config";
                     deps: [HttpClient]
                 }
             }),
-        )
+        ),
+        providePrimeNG({
+            theme: {
+                preset: Aura,
+                options: {
+                    darkModeSelector: false
+                }
+            }
+        })
     ],
     bootstrap: [AppComponent]
 })

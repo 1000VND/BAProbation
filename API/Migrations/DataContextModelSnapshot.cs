@@ -137,7 +137,7 @@ namespace API.Migrations
 
                     b.HasKey("PK_UserID");
 
-                    b.ToTable("Users", "Admin");
+                    b.ToTable("Admin.Users", "dbo");
                 });
 #pragma warning restore 612, 618
         }

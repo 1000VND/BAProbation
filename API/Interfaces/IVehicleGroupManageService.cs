@@ -1,10 +1,9 @@
-﻿using API.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using API.DTOs;
 
 namespace API.Interfaces
 {
     public interface IVehicleGroupManageService
     {
-        Task<List<AdminUser>> GetUser();
+        Task<List<UserDto>> GetUser();
     }
 }

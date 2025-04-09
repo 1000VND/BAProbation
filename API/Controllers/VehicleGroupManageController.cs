@@ -17,8 +17,8 @@ namespace API.Controllers
             _vehicleGroupManageService = vehicleGroupManageService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<AdminUser>>> GetUser()
+        [HttpGet("GetAllUser")]
+        public async Task<ActionResult<List<AdminUser>>> GetAllUser()
         {
             var data = await _vehicleGroupManageService.GetUser();
 

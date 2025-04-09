@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
-    [Table("Admin.Users", Schema = "dbo")]
+    [Table("Users", Schema = "Admin")]
     public class AdminUser : EntityBase
     {
         public Guid PK_UserID { get; set; }
