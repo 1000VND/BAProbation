@@ -1,4 +1,5 @@
-﻿using API.Entities;
+﻿using API.DTOs;
+using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +19,25 @@ namespace API.Controllers
         }
 
         [HttpGet("GetAllUser")]
-        public async Task<ActionResult<List<AdminUser>>> GetAllUser()
+        public async Task<ActionResult<List<UserDto>>> GetAllUser()
         {
             var data = await _vehicleGroupManageService.GetUser();
 
             return Ok(data);
+        }
+
+        [HttpPost("GetUserVehicleGroup")]
+        public async Task<ActionResult<VehicleGroupResponse>> GetUserVehicleGroups([FromQuery] string? userId)
+        {
+            var data = await _vehicleGroupManageService.GetUserVehicleGroups(userId);
+
+            var response = new VehicleGroupResponse
+            {
+                NotInGroup = data.notInGroup,
+                InGroup = data.inGroup
+            };
+
+            return Ok(response);
         }
     }
 }

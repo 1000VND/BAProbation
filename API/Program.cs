@@ -11,6 +11,11 @@ builder.Services.AddControllers();
 builder.Services.AddCors();
 
 builder.Services.AddScoped<IVehicleGroupManageService, VehicleGroupManageService>();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

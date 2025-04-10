@@ -8,6 +8,8 @@ namespace API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<AdminUser> AdminUsers { get; set; } = default!;
+        public DbSet<VehicleGroup> VehicleGroups { get; set; } = default!;
+        public DbSet<AdminUserVehicleGroup> AdminUserVehicleGroups { get; set; } = default!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,6 +19,14 @@ namespace API.Data
             modelBuilder.Entity<AdminUser>()
                 .ToTable("Admin.Users", "dbo")
                 .HasKey(u => u.PK_UserID);
+
+            modelBuilder.Entity<VehicleGroup>()
+                .ToTable("Vehicle.Groups", "dbo")
+                .HasKey(u => u.PK_VehicleGroupID);
+
+            modelBuilder.Entity<AdminUserVehicleGroup>()
+                .ToTable("Admin.UserVehicleGroup", "dbo")
+                .HasKey(u => new { u.FK_UserID, u.FK_VehicleGroupID });
         }
     }
 }

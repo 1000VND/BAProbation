@@ -20,3 +20,15 @@ body {
 .gap-3 {
     gap: 1rem !important;
 }
+
+/* Animation CSS */
+.animate {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease-in-out;
+}
+
+[data-animation] {
+    opacity: 0;
+    transform: translateY(50px);
+}
