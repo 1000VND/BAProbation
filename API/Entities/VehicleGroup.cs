@@ -3,25 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
-    [Table("Groups", Schema = "Vehicle")]
+    [Table("Vehicle.VehicleGroups")]
     public class VehicleGroup
     {
+        [Key]
+        [Column(Order = 0)] // Composite Key Part 1
+        public int FK_VehicleGroupID { get; set; }
+
+        [Key]
+        [Column(Order = 1)] // Composite Key Part 2
+        public int FK_VehicleID { get; set; }
+
         public int FK_CompanyID { get; set; }
-        public int PK_VehicleGroupID { get; set; }
-        public int? ParentVehicleGroupID { get; set; }
-        [StringLength(250)]
-        public required string Name { get; set; }
-        public Guid? CreatedByUser { get; set; }
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
-        public Guid? UpdatedByUser { get; set; }
-        public DateTime? UpdatedDate { get; set; } = DateTime.Now;
-        public double? DistanceA { get; set; }
-        public double? DistanceB { get; set; }
-        public int? MinuteA { get; set; }
-        public int? MinuteB { get; set; }
-        public int? FK_BGTProvinceID { get; set; }
+
         public bool? IsDeleted { get; set; }
-        public int Flag { get; set; } = 0;
-        public bool? Status { get; set; } = true;
     }
 }

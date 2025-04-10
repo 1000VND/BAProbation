@@ -8,7 +8,7 @@ namespace API.Helpers
     {
         public AutoMapper()
         {
-            CreateMap<AdminUser, UserDto>().ReverseMap();
+            CreateMap<Group, GroupDto>().ReverseMap();
         }
     }
 }

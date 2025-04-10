@@ -26,11 +26,11 @@ import { provideToastr, ToastrModule } from "ngx-toastr";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { HttpLoaderFactory } from "./app.config";
-import { VehicleGroupManageComponent } from "./component/vehicle-group-manage/vehicle-group-manage.component";
 import { TreeModule } from 'primeng/tree';
 import { providePrimeNG } from "primeng/config";
 import Aura from '@primeng/themes/aura';
-
+import { MediaPhotoComponent } from "./component/media-photo/media-photo.component";
+import { TreeSelect } from 'primeng/treeselect';
 @NgModule({
     declarations: [
         MultiSelectComponent,
@@ -47,7 +47,7 @@ import Aura from '@primeng/themes/aura';
         FooterComponent,
         HeaderComponent,
         HomeComponent,
-        VehicleGroupManageComponent,
+        MediaPhotoComponent,
         AppComponent
     ],
     imports: [
@@ -59,6 +59,7 @@ import Aura from '@primeng/themes/aura';
         DxPieChartModule,
         DxChartModule,
         TreeModule,
+        TreeSelect,
         TranslateModule.forRoot(),
         RouterModule.forRoot(routes),
     ],

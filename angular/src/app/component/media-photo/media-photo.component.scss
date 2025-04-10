@@ -1,0 +1,19 @@
+:host::ng-deep {
+    .p-treeselect-tree-container {
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+
+        .p-tree-node-content {
+            padding: 0;
+
+            .p-component.p-iconwrapper,
+            .p-tree-node-checkbox,
+            .p-checkbox-box {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+
+
+}

@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors();
 
-builder.Services.AddScoped<IVehicleGroupManageService, VehicleGroupManageService>();
+builder.Services.AddScoped<IMediaVehicleService, MediaVehicleService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
