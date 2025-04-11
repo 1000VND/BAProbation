@@ -7,11 +7,11 @@ namespace API.Entities
     public class VehicleGroup
     {
         [Key]
-        [Column(Order = 0)] // Composite Key Part 1
+        [Column(Order = 0)]
         public int FK_VehicleGroupID { get; set; }
 
         [Key]
-        [Column(Order = 1)] // Composite Key Part 2
+        [Column(Order = 1)]
         public int FK_VehicleID { get; set; }
 
         public int FK_CompanyID { get; set; }

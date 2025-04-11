@@ -1,19 +1,21 @@
+$green-color: #42a948;
+
 :host::ng-deep {
-    .p-treeselect-tree-container {
-        font-family: 'Roboto', sans-serif;
-        font-size: 12px;
-
-        .p-tree-node-content {
-            padding: 0;
-
-            .p-component.p-iconwrapper,
-            .p-tree-node-checkbox,
-            .p-checkbox-box {
-                width: 14px;
-                height: 14px;
-            }
-        }
+    .p-treeselect-label {
+        width: 15vw;
     }
 
+    .p-tree-node-checkbox {
+        display: flex;
+    }
 
+    .p-select {
+        border-left: 5px solid $green-color;
+        min-width: 17vw;
+    }
+
+    .p-select:not(.p-disabled).p-focus {
+        border: 1px solid $green-color;
+        border-left-width: 5px;
+    }
 }

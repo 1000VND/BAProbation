@@ -1,6 +1,6 @@
 <ng-select [items]="options" [(ngModel)]="selectedOptions" [placeholder]="defaultLabel" bindLabel="label"
   bindValue="value" [multiple]="true" groupBy="itemGroup" [selectableGroup]="true" [closeOnSelect]="false"
-  (ngModelChange)="changeValue($event)" (keydown)="handleKeyDown($event)">
+  (ngModelChange)="changeValue($event)">
 
   <!-- Item Tất cả  -->
   <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">

@@ -21,9 +21,9 @@ namespace API.Entities
         [MaxLength(32)]
         public string? IMEI { get; set; }
 
-        public bool IsLocked { get; set; } = false;
+        public bool? IsLocked { get; set; } = false;
 
-        public bool IsDeleted { get; set; } = false;
+        public bool? IsDeleted { get; set; } = false;
 
         public int XNCode { get; set; } = 0;
 

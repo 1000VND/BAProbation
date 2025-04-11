@@ -50,18 +50,4 @@ export class MultiSelectComponent implements OnInit {
     }
     this.onChangeValue.emit(this.selectedOptions);
   }
-
-  handleKeyDown(event: KeyboardEvent) {
-    const inputElement = event.target as HTMLInputElement;
-    const value = inputElement.value;
-
-    if (value.length > 0) {
-      return;
-    }
-
-    if (event.key === 'Backspace' && value.length === 0) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }
 }

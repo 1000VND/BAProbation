@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { importProvidersFrom, NgModule, provideZoneChangeDetection } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, importProvidersFrom, NgModule, provideZoneChangeDetection } from "@angular/core";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DxChartModule, DxPieChartModule } from "devextreme-angular";
 import { BarComponent } from "./component/common/chart/bar/bar.component";
@@ -30,7 +30,9 @@ import { TreeModule } from 'primeng/tree';
 import { providePrimeNG } from "primeng/config";
 import Aura from '@primeng/themes/aura';
 import { MediaPhotoComponent } from "./component/media-photo/media-photo.component";
-import { TreeSelect } from 'primeng/treeselect';
+import { TreeSelectModule } from 'primeng/treeselect';
+import { SelectModule } from 'primeng/select';
+
 @NgModule({
     declarations: [
         MultiSelectComponent,
@@ -59,7 +61,8 @@ import { TreeSelect } from 'primeng/treeselect';
         DxPieChartModule,
         DxChartModule,
         TreeModule,
-        TreeSelect,
+        TreeSelectModule,
+        SelectModule,
         TranslateModule.forRoot(),
         RouterModule.forRoot(routes),
     ],
@@ -74,6 +77,8 @@ import { TreeSelect } from 'primeng/treeselect';
         TranslateModule,
         ToastrModule,
         TreeModule,
+        SelectModule,
+        MultiSelectComponent,
     ],
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
@@ -106,6 +111,6 @@ import { TreeSelect } from 'primeng/treeselect';
             }
         })
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppBaseModule { }

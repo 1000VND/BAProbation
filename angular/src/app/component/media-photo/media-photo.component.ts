@@ -1,8 +1,9 @@
 import { map } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MeidaVehicleService } from '../../services/media-vehicle.service';
-import { GetDataTreeDto } from '../../models/vehicle-group';
+import { GetDataTreeDto, VehicleGroupDto } from '../../models/vehicle-group';
 import { TreeNode } from 'primeng/api';
+import { TreeSelect } from 'primeng/treeselect';
 
 @Component({
   selector: 'media-photo',
@@ -10,9 +11,14 @@ import { TreeNode } from 'primeng/api';
   styleUrls: ['./media-photo.component.scss']
 })
 export class MediaPhotoComponent implements OnInit {
+  @ViewChild('treeSelect') treeSelect!: TreeSelect;
 
-  selectedGroup: any;
+  selectedGroup: TreeNode[] = [];
   nodeGroups: TreeNode[] = [];
+  vehicles: { label: string; value: number }[] = [];
+  emptyMessage = 'Không có dữ liệu';
+
+  selectedItem: any;
 
   constructor(
     private _mediaVehicleService: MeidaVehicleService
@@ -27,13 +33,49 @@ export class MediaPhotoComponent implements OnInit {
       const dataInGroup: GetDataTreeDto[] = res.map(item => ({
         id: item.pK_VehicleGroupID,
         parentId: item.parentVehicleGroupID,
-        label: item.name
+        label: item.name,
+        key: item.pK_VehicleGroupID.toString(),
       }));
 
-      this.nodeGroups = this.buildTree(dataInGroup);
+      const data = this.buildTree(dataInGroup);
+      this.nodeGroups = [{
+        label: `Tất cả (${dataInGroup.length})`,
+        data: 0,
+        key: '0',
+        children: data,
+        selectable: true,
+        expanded: true,
+      }];
     });
   }
 
+  getVehicleGroupById(groupId: number[]) {
+    this._mediaVehicleService.getVehicleGroupById(groupId).subscribe((res) => {
+      this.vehicles = res.map(item => {
+        return {
+          label: item.plateAndCode,
+          value: item.pK_VehicleID
+        }
+      });
+    });
+  }
+
+  onNodeSelect(param: { node: TreeNode }, action: string) {
+    // Trường hợp node là gốc
+    if (param.node.data == 0 && action == 'select') {
+      this.getVehicleGroupById([0])
+    } else if (param.node.data == 0 && action == 'unselect') {
+      this.getVehicleGroupById([]);
+    } else {
+      const groupId = this.selectedGroup.map(item => item.data);
+
+      this.getVehicleGroupById(groupId)
+    }
+  }
+
+  onChange(param: { value: VehicleGroupDto }) {
+    console.log(param.value);
+  }
 
   /**
    * Chuyển đổi danh sách các nhóm thành cấu trúc cây
@@ -50,9 +92,10 @@ export class MediaPhotoComponent implements OnInit {
     groups.forEach(group => {
       groupMap[group.id] = {
         label: group.label,
-        data: group.label,
+        data: group.id,
         icon: 'pi pi-fw pi-folder',
-        children: []
+        children: [],
+        key: group.key,
       };
     });
 
@@ -81,5 +124,4 @@ export class MediaPhotoComponent implements OnInit {
     // Trả về kết quả cây phân cấp
     return tree;
   }
-
 }

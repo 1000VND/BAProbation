@@ -9,6 +9,7 @@ namespace API.Helpers
         public AutoMapper()
         {
             CreateMap<Group, GroupDto>().ReverseMap();
+            CreateMap<Vehicle, VehicleGroupDto>().ReverseMap();
         }
     }
 }

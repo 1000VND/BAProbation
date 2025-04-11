@@ -24,5 +24,13 @@ namespace API.Controllers
 
             return data;
         }
+
+        [HttpPost("GetVehicles")]
+        public async Task<ActionResult<List<VehicleGroupDto>>> GetVehicles(List<int> groupIds)
+        {
+            var data = await _mediaVehicleService.GetVehicleGroups(groupIds);
+
+            return data;
+        }
     }
 }

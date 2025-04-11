@@ -4,13 +4,14 @@ export interface GetAllVehicleGroupDto {
     name: string;
 }
 
-export interface VehicleGroupDto {
-    notInGroup: GetAllVehicleGroupDto[];
-    inGroup: GetAllVehicleGroupDto[];
-}
-
 export interface GetDataTreeDto {
     id: number;
     parentId: number;
     label: string;
+    key: string;
+}
+
+export interface VehicleGroupDto {
+    pK_VehicleID: number;
+    plateAndCode: string;
 }
