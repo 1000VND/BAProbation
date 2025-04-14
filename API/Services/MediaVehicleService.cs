@@ -22,11 +22,18 @@ namespace API.Services
 
         public async Task<List<GroupDto>> GetAllGroups()
         {
-            var data = await _context.Groups.Where(e => e.IsDeleted == null || e.IsDeleted == false).ToListAsync();
+            var data = await (from g in _context.Groups
+                              join v in _context.VehicleGroups.Where(e => e.IsDeleted == null || e.IsDeleted == false) on g.PK_VehicleGroupID equals v.FK_VehicleGroupID into gv
+                              where g.IsDeleted == null || g.IsDeleted == false
+                              select new GroupDto
+                              {
+                                  PK_VehicleGroupID = g.PK_VehicleGroupID,
+                                  ParentVehicleGroupID = g.ParentVehicleGroupID,
+                                  Name = g.Name,
+                                  CountVehicle = gv.Count()
+                              }).ToListAsync();
 
-            var result = _mapper.Map<List<GroupDto>>(data);
-
-            return result;
+            return data;
         }
 
         public async Task<List<VehicleGroupDto>> GetVehicleGroups(List<int> groupIds)
@@ -48,8 +55,8 @@ namespace API.Services
                 var vehicle = new VehicleGroupDto()
                 {
                     PK_VehicleID = item.PK_VehicleID,
-                    PlateAndCode = item.PrivateCode.Equals(item.VehiclePlate) 
-                                    ? item.PrivateCode : item.PrivateCode + " (" +item.VehiclePlate + ")"
+                    PlateAndCode = item.PrivateCode.Equals(item.VehiclePlate)
+                                    ? item.PrivateCode : item.PrivateCode + " (" + item.VehiclePlate + ")"
                 };
                 result.Add(vehicle);
             }

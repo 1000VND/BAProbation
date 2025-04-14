@@ -19,8 +19,6 @@ export class DashboardComponent implements OnInit {
       })
     });
 
-
-
     this.refreshData();
   }
 

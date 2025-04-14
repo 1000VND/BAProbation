@@ -1,25 +1,77 @@
 <div class="container-fluid p-0">
   <h5 class="text-primary font-weight-bold m-2">XEM ẢNH PHƯƠNG TIỆN</h5>
 
-  <div class="row mx-0">
-    <div class="col p-0">
+  <div class="row row-cols-auto gap-2 mx-2">
+    <div class="col-auto p-0">
       <p-treeselect [(ngModel)]="selectedGroup" [options]="nodeGroups" selectionMode="checkbox" [filter]="true"
         filterPlaceholder="Tìm kiếm" display="chip" placeholder="Chọn nhóm phương tiện"
         (onNodeSelect)="onNodeSelect($event, 'select')" (onNodeUnselect)="onNodeSelect($event, 'unselect')"
-        [emptyMessage]="emptyMessage">
+        [emptyMessage]="emptyMessage" [style]="minWidth">
       </p-treeselect>
     </div>
-    <div class="col">
-      <p-select [options]="vehicles" [(ngModel)]="selectedItem" [virtualScroll]="true" [virtualScrollItemSize]="38"
-        (onChange)="onChange($event)" placeholder="Danh sách xe" [emptyFilterMessage]="emptyMessage"
-        [emptyMessage]="emptyMessage" />
-    </div>
-    <div class="col"></div>
-    <div class="col"></div>
-    <div class="col"></div>
 
-    <div class="col"></div>
-    <div class="col"></div>
-    <div class="col"></div>
+    <div class="col p-0">
+      <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" (onChange)="onChangeVehicle($event)"
+        placeholder="Danh sách xe" [emptyMessage]="emptyMessage" [style]="minWidth">
+      </p-select>
+    </div>
+
+    <div class="col p-0 multiple-container">
+      <ba-multiselect [dataSelect]="channels" [(ngModel)]="selectedChannels" [defaultLabel]="'Chọn kênh'">
+      </ba-multiselect>
+    </div>
+
+    <div class="col-auto p-0">
+      <p-select [options]="sortPhotos" [(ngModel)]="selectedSortPhoto" [style]="{'min-width':'11vw'}">
+      </p-select>
+    </div>
+
+    <div class="col-auto p-0">
+      <p-datepicker [(ngModel)]="date" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"
+        [dateFormat]="'dd/mm/yy'" [style]="{'min-width':'11vw', 'width': '11vw'}">
+      </p-datepicker>
+    </div>
+
+    <div class="col-auto p-0">
+      <p-datepicker [(ngModel)]="timeFrom" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"
+        [style]="{'min-width':'8vw','width':'6vw'}" [timeOnly]="true" icon="pi pi-clock"
+        (ngModelChange)="validateTimes()">
+      </p-datepicker>
+    </div>
+
+    <div class="col-auto p-0">
+      <p-datepicker [(ngModel)]="timeTo" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"
+        [style]="{'min-width':'8vw','width':'6vw'}" [timeOnly]="true" icon="pi pi-clock"
+        (ngModelChange)="validateTimes()">
+      </p-datepicker>
+    </div>
+
+    <div class="col-auto p-0 ">
+      <button type="button" class="btn d-flex align-items-center justify-content-center text-white h-100"
+        style="background-color: #0959a0;" (click)="search()">
+        <i class="fa-solid fa-magnifying-glass pr-2"></i> Tìm kiếm
+      </button>
+    </div>
+
+    <div class="col-auto p-0">
+      <button type="button" class="btn d-flex align-items-center justify-content-center text-white h-100"
+        style="background-color: #0959a0;" (click)="search()">
+        4 <i class="fa-solid fa-image pl-2"></i>
+      </button>
+    </div>
+
+    <div class="col-auto p-0">
+      <button type="button" class="btn d-flex align-items-center justify-content-center text-white h-100"
+        style="background-color: #0959a0;" (click)="search()">
+        5 <i class="fa-solid fa-image pl-2"></i>
+      </button>
+    </div>
+
+    <div class="col-auto p-0">
+      <button type="button" class="btn d-flex align-items-center justify-content-center text-white h-100"
+        style="background-color: #0959a0;" (click)="search()">
+        6 <i class="fa-solid fa-image pl-2"></i>
+      </button>
+    </div>
   </div>
 </div>

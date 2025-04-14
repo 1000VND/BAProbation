@@ -5,5 +5,6 @@
         public int PK_VehicleGroupID { get; set; }
         public int? ParentVehicleGroupID { get; set; }
         public required string Name { get; set; }
+        public int CountVehicle { get; set; } = 0;
     }
 }

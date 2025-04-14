@@ -32,6 +32,12 @@ import Aura from '@primeng/themes/aura';
 import { MediaPhotoComponent } from "./component/media-photo/media-photo.component";
 import { TreeSelectModule } from 'primeng/treeselect';
 import { SelectModule } from 'primeng/select';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CheckboxModule } from "primeng/checkbox";
+import { DatePickerModule } from 'primeng/datepicker';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
     declarations: [
@@ -54,6 +60,7 @@ import { SelectModule } from 'primeng/select';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -63,6 +70,13 @@ import { SelectModule } from 'primeng/select';
         TreeModule,
         TreeSelectModule,
         SelectModule,
+        MultiSelectModule,
+        CheckboxModule,
+        DatePickerModule,
+        ButtonModule,
+        NgxSpinnerModule.forRoot({
+            type: 'timer'
+        }),
         TranslateModule.forRoot(),
         RouterModule.forRoot(routes),
     ],
@@ -79,13 +93,18 @@ import { SelectModule } from 'primeng/select';
         TreeModule,
         SelectModule,
         MultiSelectComponent,
+        NgxSpinnerModule,
+        MultiSelectModule,
+        CheckboxModule,
+        DatePickerModule,
+        ButtonModule
     ],
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
         provideAnimationsAsync(),
         provideToastr({
-            positionClass: 'toast-bottom-right',
+            positionClass: 'toast-top-right',
             timeOut: 5000,
             preventDuplicates: true,
             closeButton: true,

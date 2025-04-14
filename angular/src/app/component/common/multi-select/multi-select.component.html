@@ -1,6 +1,6 @@
-<ng-select [items]="options" [(ngModel)]="selectedOptions" [placeholder]="defaultLabel" bindLabel="label"
+<ng-select #inputElement [items]="options" [(ngModel)]="selectedOptions" [placeholder]="defaultLabel" bindLabel="label"
   bindValue="value" [multiple]="true" groupBy="itemGroup" [selectableGroup]="true" [closeOnSelect]="false"
-  (ngModelChange)="changeValue($event)">
+  (ngModelChange)="changeValue($event)" [notFoundText]="'Không có dữ liệu'">
 
   <!-- Item Tất cả  -->
   <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">

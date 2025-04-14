@@ -1,9 +1,11 @@
-import { map } from 'rxjs';
+import { finalize, from, map } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MeidaVehicleService } from '../../services/media-vehicle.service';
-import { GetDataTreeDto, VehicleGroupDto } from '../../models/vehicle-group';
+import { ComboboxDto, GetDataTreeDto, VehicleGroupDto } from '../../models/vehicle-group';
 import { TreeNode } from 'primeng/api';
 import { TreeSelect } from 'primeng/treeselect';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'media-photo',
@@ -13,15 +15,35 @@ import { TreeSelect } from 'primeng/treeselect';
 export class MediaPhotoComponent implements OnInit {
   @ViewChild('treeSelect') treeSelect!: TreeSelect;
 
-  selectedGroup: TreeNode[] = [];
   nodeGroups: TreeNode[] = [];
-  vehicles: { label: string; value: number }[] = [];
+  vehicles: ComboboxDto[] = [];
   emptyMessage = 'Không có dữ liệu';
+  minWidth = { 'min-width': '15vw', 'width': '100%' };
 
-  selectedItem: any;
+  sortPhotos: ComboboxDto[] = [
+    {
+      label: 'Theo ảnh mới nhất',
+      value: 1
+    },
+    {
+      label: 'Theo ảnh cũ nhất',
+      value: 2
+    }
+  ];
+
+  selectedGroup: TreeNode[] = [];
+  selectedVehicle: number | undefined;
+  selectedChannels: number | undefined;
+  selectedSortPhoto: number = 1;
+  channels: ComboboxDto[] = [];
+  date: Date = new Date();
+  timeFrom: Date = new Date(new Date().setHours(0, 0, 0, 0));
+  timeTo: Date = new Date(new Date().setHours(23, 59, 0, 0));
 
   constructor(
-    private _mediaVehicleService: MeidaVehicleService
+    private _mediaVehicleService: MeidaVehicleService,
+    private _loadingService: NgxSpinnerService,
+    private _toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -29,28 +51,41 @@ export class MediaPhotoComponent implements OnInit {
   }
 
   getGroups() {
-    this._mediaVehicleService.getGroups().subscribe((res) => {
-      const dataInGroup: GetDataTreeDto[] = res.map(item => ({
-        id: item.pK_VehicleGroupID,
-        parentId: item.parentVehicleGroupID,
-        label: item.name,
-        key: item.pK_VehicleGroupID.toString(),
-      }));
+    this._loadingService.show();
+    this._mediaVehicleService.getGroups().pipe(finalize(() => {
+      this._loadingService.hide();
+    })).subscribe({
+      next: (res) => {
+        const totalVehicle = res.reduce((acc, item) => acc + item.countVehicle, 0);
 
-      const data = this.buildTree(dataInGroup);
-      this.nodeGroups = [{
-        label: `Tất cả (${dataInGroup.length})`,
-        data: 0,
-        key: '0',
-        children: data,
-        selectable: true,
-        expanded: true,
-      }];
+        const dataInGroup: GetDataTreeDto[] = res.map(item => ({
+          id: item.pK_VehicleGroupID,
+          parentId: item.parentVehicleGroupID,
+          label: `${item.name} (${item.countVehicle} xe)`,
+          key: item.pK_VehicleGroupID.toString(),
+        }));
+
+        const data = this.buildTree(dataInGroup);
+
+        this.nodeGroups = [{
+          label: `Tất cả (${totalVehicle} xe)`,
+          data: 0,
+          key: '0',
+          children: data,
+          selectable: true,
+          expanded: true,
+        }];
+      }, error: () => {
+        this._toastr.error('Có lỗi xảy ra khi tải dữ liệu nhóm xe');
+      }
     });
   }
 
   getVehicleGroupById(groupId: number[]) {
-    this._mediaVehicleService.getVehicleGroupById(groupId).subscribe((res) => {
+    this._loadingService.show();
+    this._mediaVehicleService.getVehicleGroupById(groupId).pipe(finalize(() => {
+      this._loadingService.hide();
+    })).subscribe((res) => {
       this.vehicles = res.map(item => {
         return {
           label: item.plateAndCode,
@@ -60,6 +95,11 @@ export class MediaPhotoComponent implements OnInit {
     });
   }
 
+  /**
+   * Khi chọn nhóm xe thì sẽ gọi api lấy danh sách xe
+   * @param param 
+   * @param action 
+   */
   onNodeSelect(param: { node: TreeNode }, action: string) {
     // Trường hợp node là gốc
     if (param.node.data == 0 && action == 'select') {
@@ -73,8 +113,56 @@ export class MediaPhotoComponent implements OnInit {
     }
   }
 
-  onChange(param: { value: VehicleGroupDto }) {
-    console.log(param.value);
+  /**
+   * Khi chọn nhóm xe thì sẽ random lại kênh
+   * @param param 
+   */
+  onChangeVehicle(param: { value: VehicleGroupDto }) {
+    const channels = [
+      { label: 'Kênh 1', value: 1 },
+      { label: 'Kênh 2', value: 2 },
+      { label: 'Kênh 3', value: 3 },
+      { label: 'Kênh 4', value: 4 }
+    ];
+
+    // Random lại kênh trong mảng channels
+    this.channels = this.getRandomChannels(channels);
+  }
+
+  /**
+   * Kiểm tra nếu timeFrom lớn hơn timeTo
+   */
+  validateTimes() {
+    if (this.timeFrom && this.timeTo) {
+      const fromTime = this.timeFrom.getHours() * 60 + this.timeFrom.getMinutes();
+      const toTime = this.timeTo.getHours() * 60 + this.timeTo.getMinutes();
+
+      if (fromTime > toTime) {
+        this._toastr.error('Thời gian bắt đầu không được lớn hơn thời gian kết thúc');
+        this.timeFrom = new Date(new Date().setHours(0, 0, 0, 0));
+        this.timeTo = new Date(new Date().setHours(23, 59, 0, 0));
+      }
+
+    }
+  }
+
+  search(){
+    
+  }
+
+  /**
+   * Random kênh trong mảng channels
+   * @param channels 
+   * @returns random channels 
+   */
+  private getRandomChannels(channels: { label: string; value: number }[]): { label: string; value: number }[] {
+    const minChannels = 1;
+    const maxChannels = 4;
+    const numberOfChannels = Math.floor(Math.random() * (maxChannels - minChannels + 1)) + minChannels;
+
+    // Shuffle the channels array and return the first `numberOfChannels` items
+    const shuffledChannels = [...channels].sort(() => Math.random() - 0.5);
+    return shuffledChannels.slice(0, numberOfChannels).sort((a, b) => a.value - b.value);
   }
 
   /**
@@ -115,11 +203,11 @@ export class MediaPhotoComponent implements OnInit {
     });
 
     // Cập nhật label cho các node có con
-    Object.values(groupMap).forEach(node => {
-      if (node.children && node.children.length > 0) {
-        node.label = `${node.label} (${node.children.length} xe)`;
-      }
-    });
+    // Object.values(groupMap).forEach(node => {
+    //   if (node.children && node.children.length > 0) {
+    //     node.label = `${node.label} (${node.children.length} xe)`;
+    //   }
+    // });
 
     // Trả về kết quả cây phân cấp
     return tree;
