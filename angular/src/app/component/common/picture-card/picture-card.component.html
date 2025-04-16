@@ -1,0 +1,36 @@
+<div class="card" *ngIf="picture">
+  <div class="card-img-wrapper">
+    <img src="{{picture.photoUrl || 'default-thumbnail.jpg'}}" alt="" class="card-img-top"
+      (click)="detail.showModal()" />
+
+    <div class="card-body">
+      <div class="row mx-0 align-items-start flex-wrap">
+        <div class="col-xxl-6 col-12 text-break p-0">
+          <i class="fa-regular fa-clock"></i>
+          <span class="text-date text-primary">
+            {{ picture.timePicture | date: 'dd/MM/yyyy HH:mm:ss' }}
+          </span>
+        </div>
+
+        <div class="col-xxl-6 col-12 p-0 d-flex align-items-center justify-content-start justify-content-xxl-end">
+          <img style="width: 1rem;" src="speed.ico" alt="speed icon" class="icon-speed" />
+          <span class="ml-1 mr-2 text-muted" style="flex:none;">{{ picture.vehicleSpeed }} km/h</span>
+
+          <button class="btn-download" (click)="downloadFile(picture)">
+            <i class="pi pi-download"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row mx-0 my-2 align-items-center justify-content-start">
+        <i class="fa-solid fa-video pr-2"></i> Kênh {{picture.vehicleChannel}}
+      </div>
+
+      <div class="row mx-0 mt-2 align-items-center justify-content-start">
+        <i class="fa-solid fa-location-dot pr-2"></i> Bãi đỗ 29 Đức Giang
+      </div>
+    </div>
+  </div>
+
+  <ba-picture-card-detail #detail [pictures]="pictures" [show]="displayModal" [index]="index"
+    [pagination]="pagination" [vehiclePlate]="vehiclePlate"></ba-picture-card-detail>
+</div>

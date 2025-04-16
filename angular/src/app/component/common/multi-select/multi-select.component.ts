@@ -20,7 +20,7 @@ export class MultiSelectComponent implements OnInit {
       return {
         label: e.label,
         value: e.value,
-        itemGroup: e.itemGroup ?? 'Tất cả'
+        itemGroup: `Tất cả (${data.length})`
       }
     });
   }
@@ -51,10 +51,18 @@ export class MultiSelectComponent implements OnInit {
 
   registerOnTouched(fn: any): void { }
 
-  changeValue(e: any) {
+  changeValue() {
     if (typeof this.onChange === 'function') {
       this.onChange(this.selectedOptions);
     }
-    this.onChangeValue.emit(this.selectedOptions);
+    this.onChangeValue.emit(this.filter(this.selectedOptions));
+  }
+
+  filter(select: any[]) {
+    const hasAllOption = select.some(item => typeof item === 'string' && item.includes('Tất cả'));
+    if (hasAllOption) {
+      return [0];
+    }
+    return this.selectedOptions;
   }
 }

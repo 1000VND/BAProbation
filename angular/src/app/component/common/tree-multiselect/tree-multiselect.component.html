@@ -1,0 +1,40 @@
+<div class="tree-multiselect">
+  <!-- Dropdown Header -->
+  <div class="dropdown-header" (click)="toggleDropdown()">
+    <span>{{ selectedItems.length > 0 ? selectedItems.join(', ') : 'Chọn nhóm xe' }}</span>
+    <i class="fa-solid" [class.fa-chevron-down]="!dropdownOpen" [class.fa-chevron-up]="dropdownOpen"></i>
+  </div>
+
+  <!-- Dropdown Content -->
+  <div class="dropdown-content" *ngIf="dropdownOpen">
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" [(ngModel)]="searchTerm" (input)="filterTree()" placeholder="Tìm kiếm" />
+    </div>
+
+    <!-- Select All -->
+    <div class="select-all">
+      <input type="checkbox" [checked]="isAllSelected()" (change)="toggleSelectAll()" />
+      <span>Chọn tất cả</span>
+    </div>
+
+    <!-- Tree Structure -->
+    <ul class="tree">
+      <li *ngFor="let node of filteredTreeData">
+        <div class="tree-node">
+          <input type="checkbox" [checked]="isNodeSelected(node)" [indeterminate]="isNodeIndeterminate(node)"
+            (change)="toggleNodeSelection(node)" />
+          <span>{{ node.label }}</span>
+        </div>
+        <ul *ngIf="node.children?.length > 0">
+          <li *ngFor="let child of node.children">
+            <div class="tree-node">
+              <input type="checkbox" [checked]="isNodeSelected(child)" (change)="toggleNodeSelection(child)" />
+              <span>{{ child.label }}</span>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

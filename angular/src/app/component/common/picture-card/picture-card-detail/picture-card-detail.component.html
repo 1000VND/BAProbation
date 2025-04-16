@@ -1,0 +1,87 @@
+<p-dialog [(visible)]="show" [draggable]="false" [modal]="true" [closable]="false" maskStyleClass="backdrop-blur-sm"
+  styleClass="!border-0 !bg-transparent">
+  <!-- Custom Header -->
+  <ng-template pTemplate="header">
+    <div class="row m-0 w-100 py-1 px-2 justify-content-between align-items-center text-white">
+      <h6 class="m-0">XEM CHI TIẾT</h6>
+      <button class="bg-transparent border-0 text-white" (click)="closeDetail()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- Dialog Content -->
+  <div *ngIf="picture">
+
+    <div class="image-navigation-container">
+      <!-- Previous Button -->
+      <button class="btn-prev" (click)="previousImage()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="image-wrapper">
+        <img [src]="picture.photoUrl || 'default-thumbnail.jpg'" alt="" class="card-img-top transition-image"
+          [class.fade-custom]="transition === 'fade-custom'" />
+      </div>
+
+      <!-- Next Button -->
+      <button class="btn-next" (click)="nextImage()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="row p-2 w-100 justify-content-between align-items-center m-0 text-white"
+      style="background-color: #191919;">
+
+      <!-- Xem ảnh tự động -->
+      <button class="bg-transparent text-white border-0" (click)="autoSlideImage()">
+        <i class="fa-solid" [class.fa-play]="!autoViewImage" [class.fa-pause]="autoViewImage"></i> Xem ảnh tự động
+      </button>
+
+      <span>
+        {{(pagination.currentPage - 1) * pagination.itemsPerPage + saveIndex + 1}}/{{pagination.totalItems}} ảnh
+      </span>
+    </div>
+    <div class="info-vehicle-container">
+      <div class="row m-0 px-2 justify-content-between align-items-center text-white">
+        <div class="col-md-8 p-0 item-info-vehicle">
+          <img class="icon-vehicle-detail" src="icons8-car-48.png">
+          {{ vehiclePlate }}
+        </div>
+
+        <div class="col-md-4 p-0 item-info-vehicle">
+          <img class="icon-vehicle-detail" src="icons8-clock-48.png">
+          {{ picture.timePicture | date: 'HH:mm:ss dd/MM/yyyy' }}
+        </div>
+      </div>
+
+      <div class="row m-0 px-2 pt-2 justify-content-between align-items-center text-white">
+        <div class="col-md-3 p-0 item-info-vehicle">
+          <img class="icon-vehicle-detail" src="icons8-video-48.png">
+          Kênh {{ picture.vehicleChannel }}
+        </div>
+
+        <div class="col-md-3 p-0 item-info-vehicle">
+          <img class="icon-vehicle-detail" src="icons8-name-48.png">
+          {{ 'LE DUC LOI' }}
+        </div>
+
+        <div class="col-md-3 p-0 item-info-vehicle">
+          <img class="icon-vehicle-detail" src="icons8-speedometer-48.png">
+          {{ picture.vehicleSpeed }} km/h
+        </div>
+
+        <div class="col-md-auto p-0">
+          <button class="btn-download" (click)="downloadFile(picture)">
+            <i class="pi pi-download"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="row gap-2 m-0 px-2 pt-2 justify-content-start align-items-center text-white">
+        <img class="icon-vehicle-detail" src="icons8-location-48.png">
+        {{'Điểm kẹp chì - KV3'}}
+      </div>
+    </div>
+  </div>
+</p-dialog>

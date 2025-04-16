@@ -110,8 +110,4 @@ export class HomeComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  clickCard1() {
-    console.log('fdvcvcvcv');
-  }
-
 }

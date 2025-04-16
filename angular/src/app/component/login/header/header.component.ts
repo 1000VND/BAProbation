@@ -11,13 +11,12 @@ import { map } from 'rxjs';
 export class HeaderComponent implements OnInit {
 
   visible: boolean = false;
-  languages = [
+  languages: { code: string, name: string, icon: string }[] = [
     { code: 'vi', name: 'Vietnamese', icon: 'vn-flag.png' },
     { code: 'en', name: 'English', icon: 'gl-flag.png' },
-    // Thêm các ngôn ngữ khác tại đây
   ];
 
-  selectedLanguage: any = this.languages[0];
+  selectedLanguage: { code: string, name: string, icon: string } = this.languages[0];
   dropdownOpen = false;
   isLogin: boolean = false;
 
@@ -38,7 +37,7 @@ export class HeaderComponent implements OnInit {
    * Thay đổi ngôn ngữ hệ thống
    * @param language 
    */
-  changeLanguage(language: any) {
+  changeLanguage(language: { code: string, name: string, icon: string }) {
     this.selectedLanguage = language;
     this.translate.use(this.selectedLanguage.code.toString());
     localStorage.setItem('lang', this.selectedLanguage.code);
@@ -62,7 +61,7 @@ export class HeaderComponent implements OnInit {
   private languageConfig() {
     let language = localStorage.getItem('lang');
     if (language) {
-      this.selectedLanguage = this.languages.find(e => e.code == language)
+      this.selectedLanguage = this.languages.find(e => e.code == language) || this.languages[0];
     } else {
       this.selectedLanguage = this.languages[0]
     }

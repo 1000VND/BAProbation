@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { CUSTOM_ELEMENTS_SCHEMA, importProvidersFrom, NgModule, provideZoneChangeDetection } from "@angular/core";
+import { importProvidersFrom, NgModule, provideZoneChangeDetection } from "@angular/core";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DxChartModule, DxPieChartModule } from "devextreme-angular";
 import { BarComponent } from "./component/common/chart/bar/bar.component";
@@ -24,7 +24,7 @@ import { HeaderComponent } from "./component/login/header/header.component";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { provideToastr, ToastrModule } from "ngx-toastr";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { HttpLoaderFactory } from "./app.config";
 import { TreeModule } from 'primeng/tree';
 import { providePrimeNG } from "primeng/config";
@@ -38,6 +38,11 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CheckboxModule } from "primeng/checkbox";
 import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
+import { PictureCardComponent } from "./component/common/picture-card/picture-card.component";
+import { DialogModule } from 'primeng/dialog';
+import { PictureCardDetailComponent } from "./component/common/picture-card/picture-card-detail/picture-card-detail.component";
+import { PaginationComponent } from "./component/common/pagination/pagination.component";
+import { TreeMultiselectComponent } from "./component/common/tree-multiselect/tree-multiselect.component";
 
 @NgModule({
     declarations: [
@@ -56,6 +61,10 @@ import { ButtonModule } from 'primeng/button';
         HeaderComponent,
         HomeComponent,
         MediaPhotoComponent,
+        PictureCardComponent,
+        PictureCardDetailComponent,
+        PaginationComponent,
+        TreeMultiselectComponent,
         AppComponent
     ],
     imports: [
@@ -74,6 +83,8 @@ import { ButtonModule } from 'primeng/button';
         CheckboxModule,
         DatePickerModule,
         ButtonModule,
+        HttpClientModule,
+        DialogModule,
         NgxSpinnerModule.forRoot({
             type: 'timer'
         }),
@@ -97,7 +108,8 @@ import { ButtonModule } from 'primeng/button';
         MultiSelectModule,
         CheckboxModule,
         DatePickerModule,
-        ButtonModule
+        ButtonModule,
+        DialogModule
     ],
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),

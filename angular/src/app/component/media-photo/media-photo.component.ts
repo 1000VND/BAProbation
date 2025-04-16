@@ -1,11 +1,11 @@
-import { finalize, from, map } from 'rxjs';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { finalize } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { MeidaVehicleService } from '../../services/media-vehicle.service';
-import { ComboboxDto, GetDataTreeDto, VehicleGroupDto } from '../../models/vehicle-group';
+import { PictureParams, PictureVehicle } from '../../models/vehicle-group';
 import { TreeNode } from 'primeng/api';
-import { TreeSelect } from 'primeng/treeselect';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ComboboxDto, GetDataTreeDto, Pagination, PaginationParams } from '../../models/common';
 
 @Component({
   selector: 'media-photo',
@@ -13,13 +13,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./media-photo.component.scss']
 })
 export class MediaPhotoComponent implements OnInit {
-  @ViewChild('treeSelect') treeSelect!: TreeSelect;
-
   nodeGroups: TreeNode[] = [];
-  vehicles: ComboboxDto[] = [];
-  emptyMessage = 'Không có dữ liệu';
-  minWidth = { 'min-width': '15vw', 'width': '100%' };
-
+  vehicles: { label: string, value: string }[] = [];
+  selectedVehiclePlate: string = '';
+  channels: ComboboxDto[] = [];
   sortPhotos: ComboboxDto[] = [
     {
       label: 'Theo ảnh mới nhất',
@@ -30,15 +27,20 @@ export class MediaPhotoComponent implements OnInit {
       value: 2
     }
   ];
-
-  selectedGroup: TreeNode[] = [];
-  selectedVehicle: number | undefined;
-  selectedChannels: number | undefined;
-  selectedSortPhoto: number = 1;
-  channels: ComboboxDto[] = [];
+  emptyMessage = 'Không có dữ liệu';
   date: Date = new Date();
+  minDate: Date = new Date();
   timeFrom: Date = new Date(new Date().setHours(0, 0, 0, 0));
   timeTo: Date = new Date(new Date().setHours(23, 59, 0, 0));
+  selectedGroup: TreeNode[] = [];
+  selectedVehicle: string | undefined;
+  selectedChannels: number[] | undefined;
+  selectAllChannels: boolean = false;
+  selectedSortPhoto: number = 1;
+  numberPictureDisplay: number = 6;
+  pagination: Pagination = { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };
+  paginationParams: PaginationParams | undefined;
+  pictures: PictureVehicle[] = [];
 
   constructor(
     private _mediaVehicleService: MeidaVehicleService,
@@ -47,9 +49,13 @@ export class MediaPhotoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.minDate.setDate(this.minDate.getDate() - 30);
     this.getGroups();
   }
 
+  /**
+   * Lấy danh sách nhóm xe
+   */
   getGroups() {
     this._loadingService.show();
     this._mediaVehicleService.getGroups().pipe(finalize(() => {
@@ -76,11 +82,15 @@ export class MediaPhotoComponent implements OnInit {
           expanded: true,
         }];
       }, error: () => {
-        this._toastr.error('Có lỗi xảy ra khi tải dữ liệu nhóm xe');
+        this._toastr.error('Có lỗi xảy ra khi tải dữ liệu nhóm phương tiện');
       }
     });
   }
 
+  /**
+   * Tìm kiếm xe theo id của nhóm xe
+   * @param groupId Id nhóm xe
+   */
   getVehicleGroupById(groupId: number[]) {
     this._loadingService.show();
     this._mediaVehicleService.getVehicleGroupById(groupId).pipe(finalize(() => {
@@ -89,7 +99,7 @@ export class MediaPhotoComponent implements OnInit {
       this.vehicles = res.map(item => {
         return {
           label: item.plateAndCode,
-          value: item.pK_VehicleID
+          value: item.vehiclePlate
         }
       });
     });
@@ -117,7 +127,11 @@ export class MediaPhotoComponent implements OnInit {
    * Khi chọn nhóm xe thì sẽ random lại kênh
    * @param param 
    */
-  onChangeVehicle(param: { value: VehicleGroupDto }) {
+  onChangeVehicle(param: { value: string }) {
+    this.selectedChannels = [];
+    this.selectAllChannels = false;
+    this.selectedVehiclePlate = this.vehicles.find(e => e.value == param.value)?.label ?? '';
+
     const channels = [
       { label: 'Kênh 1', value: 1 },
       { label: 'Kênh 2', value: 2 },
@@ -142,17 +156,79 @@ export class MediaPhotoComponent implements OnInit {
         this.timeFrom = new Date(new Date().setHours(0, 0, 0, 0));
         this.timeTo = new Date(new Date().setHours(23, 59, 0, 0));
       }
-
     }
   }
 
-  search(){
-    
+  validateDataSearch() {
+    if (!this.selectedVehicle) {
+      this._toastr.error('Vui lòng chọn xe');
+      return false;
+    } else if (this.selectedChannels?.length == 0) {
+      this._toastr.error('Vui lòng chọn kênh');
+      return false;
+    } else if (!this.date) {
+      this._toastr.error('Vui lòng chọn ngày');
+      return false;
+    } else if (!this.timeFrom || !this.timeTo) {
+      this._toastr.error('Vui lòng chọn khoảng thời gian');
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Tìm kiếm ảnh
+   */
+  search() {
+    if (!this.validateDataSearch()) {
+      return;
+    }
+    const channels = this.selectAllChannels ? this.channels.map(item => item.value) : this.selectedChannels;
+
+    const body: PictureParams = {
+      vehicleName: this.selectedVehicle ? this.selectedVehicle.toString() : '',
+      channels: channels ?? [],
+      startTime: new Date(this.date.setHours(this.timeFrom.getHours(), this.timeFrom.getMinutes(), 0, 0)),
+      endTime: new Date(this.date.setHours(this.timeTo.getHours(), this.timeTo.getMinutes(), 59, 59)),
+      orderBy: this.selectedSortPhoto,
+      pageNumber: this.paginationParams ? this.paginationParams.pageNumber : this.pagination.currentPage,
+      pageSize: this.paginationParams ? this.paginationParams.pageSize : this.pagination.itemsPerPage
+    };
+
+    this._loadingService.show();
+    this._mediaVehicleService.getPictureByVehiclePlate(body).pipe(finalize(() => {
+      this._loadingService.hide();
+    })).subscribe(res => {
+      this.pictures = res.result ?? [];
+      this.pagination = res.pagination ?? { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };
+    })
+  }
+
+  /**
+   * Hiển thị số ảnh theo lựa chọn
+   * @param numberPicture Số ảnh lựa chọn hiển thị
+   */
+  displayImage(numberPicture: number) {
+    this.numberPictureDisplay = numberPicture;
+  }
+
+  /**
+   * Hàm bắt sự kiện thay đổi giá trị của combobox kênh
+   * @param event Các giá trị được chọn trong combobox
+   */
+  onChangeValueChannel(event: number[]) {
+    this.selectAllChannels = event && event.length == 1 && event[0] == 0;
+  }
+
+  onPageChange(pagination: Pagination) {
+    this.pagination = pagination;
+    this.search();
   }
 
   /**
    * Random kênh trong mảng channels
-   * @param channels 
+   * @param channels Danh sách kênh
    * @returns random channels 
    */
   private getRandomChannels(channels: { label: string; value: number }[]): { label: string; value: number }[] {
@@ -167,8 +243,8 @@ export class MediaPhotoComponent implements OnInit {
 
   /**
    * Chuyển đổi danh sách các nhóm thành cấu trúc cây
-   * @param groups 
-   * @returns tree 
+   * @param groups Danh sách các nhóm phương tiện
+   * @returns Cấu trúc cây các nhóm phương tiện 
    */
   private buildTree(groups: GetDataTreeDto[]): TreeNode[] {
     // Tạo một đối tượng map để lưu trữ các nhóm theo PK_VehicleGroupID

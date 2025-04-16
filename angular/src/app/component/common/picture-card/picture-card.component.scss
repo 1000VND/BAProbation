@@ -1,0 +1,36 @@
+:host {
+    min-width: 314px;
+}
+
+.card-img-wrapper {
+    overflow: hidden;
+    position: relative;
+
+    .card-body {
+        padding: 5px 5px;
+
+        .btn-download {
+            background-color: #4DB6AC;
+            border: none;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .col-xxl-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .justify-content-xxl-end {
+        justify-content: flex-end !important;
+    }
+}

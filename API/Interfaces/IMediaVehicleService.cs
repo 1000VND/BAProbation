@@ -1,4 +1,5 @@
 ﻿using API.DTOs;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -6,5 +7,6 @@ namespace API.Interfaces
     {
         Task<List<GroupDto>> GetAllGroups();
         Task<List<VehicleGroupDto>> GetVehicleGroups(List<int> groupIds);
+        Task<PagedList<PictureDto>> GetPictures(PictureParams pictureParams);
     }
 }

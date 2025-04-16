@@ -1,9 +1,8 @@
 $green-color: #42a948;
-$width-default: 15vw;
 
 :host::ng-deep {
     .p-treeselect-label {
-        min-width: $width-default;
+        width: 300px;
     }
 
     .p-tree-node-checkbox {
@@ -12,7 +11,6 @@ $width-default: 15vw;
 
     .p-select {
         border-left: 5px solid $green-color;
-        // min-width: 17vw;
 
         .p-select-option.p-select-option-selected,
         .p-select-option.p-select-option-selected.p-focus {
@@ -32,8 +30,41 @@ $width-default: 15vw;
         border: 1px solid $green-color;
         border-left-width: 5px;
     }
+
+    span.p-datepicker {
+        min-width: 160px;
+        width: 100%;
+    }
+
+    .timeonly>span.p-datepicker {
+        min-width: 120px;
+        width: 100%;
+    }
 }
 
 .multiple-container {
-    min-width: 8vw;
+    min-width: 160px;
+    width: 230px;
+}
+
+.row-cols-4>* {
+    max-width: calc(25% - 6px);
+}
+
+.row-cols-5>* {
+    max-width: calc(20% - 6.4px);
+}
+
+.row-cols-6>* {
+    max-width: calc(16.666667% - 6.7px);
+}
+
+.col-custom {
+    flex: 0 1 0;
+    max-width: 100%;
+}
+
+.pool-image {
+    overflow-y: auto;
+    max-height: 82vh;
 }

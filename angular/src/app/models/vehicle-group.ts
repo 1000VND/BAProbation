@@ -5,19 +5,33 @@ export interface GetAllVehicleGroupDto {
     countVehicle: number;
 }
 
-export interface GetDataTreeDto {
-    id: number;
-    parentId: number;
-    label: string;
-    key: string;
-}
-
-export interface VehicleGroupDto {
-    pK_VehicleID: number;
+export interface VehicleDto {
+    vehiclePlate: string;
     plateAndCode: string;
 }
 
-export interface ComboboxDto {
-    label: string;
-    value: number;
+export interface PictureVehicle {
+    photoUrl: string;
+    timePicture: Date;
+    vehiclePlate: string;
+    vehicleSpeed: number;
+    vehicleChannel: number;
+    driverName: string;
+}
+
+export interface PictureParams {
+    vehicleName: string;
+    channels: number[];
+    startTime: Date;
+    endTime: Date;
+    orderBy: number;
+    pageNumber: number;
+    pageSize: number;
+}
+
+export interface PictureCard {
+    item: PictureVehicle;
+    index: number;
+    list: PictureVehicle[];
+    currentPage: number;
 }

@@ -1,0 +1,50 @@
+<div *ngIf="totalItems > 0" class="pagination">
+  <ul>
+    <!-- First Button -->
+    <li class="btn first" [class.disabled]="currentPage === 1" (click)="goToPage(1)">
+      <span>
+        <i class="fa-solid fa-backward-step"></i>
+      </span>
+    </li>
+
+    <!-- Previous Button -->
+    <li class="btn prev" [class.disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+      <span>
+        <i class="fa-solid fa-caret-left fa-lg"></i>
+      </span>
+    </li>
+
+    <li *ngFor="let page of visiblePages" [class.number]="page !== '...'" [class.dots]="page === '...'"
+      [class.active]="page === currentPage" (click)="page !== '...' && goToPage(page)">
+      <span>{{ page }}</span>
+    </li>
+
+    <!-- Next Button -->
+    <li class="btn next" [class.disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+      <span>
+        <i class="fa-solid fa-caret-left fa-rotate-180 fa-lg"></i>
+      </span>
+    </li>
+
+    <!-- Last Button -->
+    <li class="btn last" [class.disabled]="currentPage === totalPages" (click)="goToPage(totalPages)">
+      <span>
+        <i class="fa-solid fa-backward-step fa-rotate-180"></i>
+      </span>
+    </li>
+  </ul>
+
+  <div class="item-per-page ">
+    <select [(ngModel)]="itemsPerPage" (ngModelChange)="onChangeItemsPerPage($event)">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+    <span>ảnh mỗi trang</span>
+  </div>
+
+  <div class="page-info">
+    <span>{{ startItem }} - {{ endItem }} / {{ totalItems }} ảnh</span>
+  </div>
+</div>
