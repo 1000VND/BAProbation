@@ -1,6 +1,6 @@
 <p-dialog [(visible)]="show" [draggable]="false" [modal]="true" [closable]="false" maskStyleClass="backdrop-blur-sm"
   styleClass="!border-0 !bg-transparent">
-  <!-- Custom Header -->
+  <!-- Header -->
   <ng-template pTemplate="header">
     <div class="row m-0 w-100 py-1 px-2 justify-content-between align-items-center text-white">
       <h6 class="m-0">XEM CHI TIẾT</h6>
@@ -10,7 +10,7 @@
     </div>
   </ng-template>
 
-  <!-- Dialog Content -->
+  <!-- Content -->
   <div *ngIf="picture">
 
     <div class="image-navigation-container">
@@ -44,11 +44,13 @@
     </div>
     <div class="info-vehicle-container">
       <div class="row m-0 px-2 justify-content-between align-items-center text-white">
+        <!-- Biển số xe -->
         <div class="col-md-8 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-car-48.png">
           {{ vehiclePlate }}
         </div>
 
+        <!-- Thời gian có ảnh -->
         <div class="col-md-4 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-clock-48.png">
           {{ picture.timePicture | date: 'HH:mm:ss dd/MM/yyyy' }}
@@ -56,21 +58,25 @@
       </div>
 
       <div class="row m-0 px-2 pt-2 justify-content-between align-items-center text-white">
+        <!-- Kênh -->
         <div class="col-md-3 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-video-48.png">
           Kênh {{ picture.vehicleChannel }}
         </div>
 
+        <!-- Tên tài xế -->
         <div class="col-md-3 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-name-48.png">
-          {{ 'LE DUC LOI' }}
+          {{ picture.driverName }}
         </div>
 
+        <!-- Tốc độ -->
         <div class="col-md-3 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-speedometer-48.png">
           {{ picture.vehicleSpeed }} km/h
         </div>
 
+        <!-- Tải ảnh -->
         <div class="col-md-auto p-0">
           <button class="btn-download" (click)="downloadFile(picture)">
             <i class="pi pi-download"></i>
@@ -78,9 +84,10 @@
         </div>
       </div>
 
+      <!-- Địa chỉ -->
       <div class="row gap-2 m-0 px-2 pt-2 justify-content-start align-items-center text-white">
         <img class="icon-vehicle-detail" src="icons8-location-48.png">
-        {{'Điểm kẹp chì - KV3'}}
+        {{picture.address}}
       </div>
     </div>
   </div>

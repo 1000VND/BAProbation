@@ -1,4 +1,4 @@
-<div class="card" *ngIf="picture">
+<div class="card h-100" *ngIf="picture">
   <div class="card-img-wrapper">
     <img src="{{picture.photoUrl || 'default-thumbnail.jpg'}}" alt="" class="card-img-top"
       (click)="detail.showModal()" />
@@ -26,11 +26,11 @@
       </div>
 
       <div class="row mx-0 mt-2 align-items-center justify-content-start">
-        <i class="fa-solid fa-location-dot pr-2"></i> Bãi đỗ 29 Đức Giang
+        <i class="fa-solid fa-location-dot pr-2"></i> {{picture.address}}
       </div>
     </div>
   </div>
 
-  <ba-picture-card-detail #detail [pictures]="pictures" [show]="displayModal" [index]="index"
-    [pagination]="pagination" [vehiclePlate]="vehiclePlate"></ba-picture-card-detail>
+  <ba-picture-card-detail #detail [pictures]="pictures" [show]="displayModal" [index]="index" [pagination]="pagination"
+    [vehiclePlate]="vehiclePlate"></ba-picture-card-detail>
 </div>

@@ -17,6 +17,7 @@ export interface PictureVehicle {
     vehicleSpeed: number;
     vehicleChannel: number;
     driverName: string;
+    address: string;
 }
 
 export interface PictureParams {

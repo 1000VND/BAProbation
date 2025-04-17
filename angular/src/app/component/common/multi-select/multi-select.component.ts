@@ -1,6 +1,5 @@
-import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'ba-multiselect',

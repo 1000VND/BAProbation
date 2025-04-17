@@ -43,6 +43,7 @@ import { DialogModule } from 'primeng/dialog';
 import { PictureCardDetailComponent } from "./component/common/picture-card/picture-card-detail/picture-card-detail.component";
 import { PaginationComponent } from "./component/common/pagination/pagination.component";
 import { TreeMultiselectComponent } from "./component/common/tree-multiselect/tree-multiselect.component";
+import { MultiselectPureComponent } from "./component/common/multiselect-pure/multiselect-pure.component";
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { TreeMultiselectComponent } from "./component/common/tree-multiselect/tr
         PictureCardDetailComponent,
         PaginationComponent,
         TreeMultiselectComponent,
+        MultiselectPureComponent,
         AppComponent
     ],
     imports: [

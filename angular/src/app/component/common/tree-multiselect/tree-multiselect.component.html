@@ -1,39 +1,57 @@
 <div class="tree-multiselect">
   <!-- Dropdown Header -->
   <div class="dropdown-header" (click)="toggleDropdown()">
-    <span>{{ selectedItems.length > 0 ? selectedItems.join(', ') : 'Chọn nhóm xe' }}</span>
-    <i class="fa-solid" [class.fa-chevron-down]="!dropdownOpen" [class.fa-chevron-up]="dropdownOpen"></i>
+    <span>{{ selectedItemsDisplay }}</span>
+    <i class="fa-solid" [class.fa-caret-down]="!dropdownOpen" [class.fa-caret-up]="dropdownOpen"></i>
   </div>
 
   <!-- Dropdown Content -->
-  <div class="dropdown-content" *ngIf="dropdownOpen">
+  <div class="dropdown-content" [class.open]="dropdownOpen">
     <!-- Search Box -->
-    <div class="search-box">
+    <div *ngIf="filteredTreeData.length > 0" class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" [(ngModel)]="searchTerm" (input)="filterTree()" placeholder="Tìm kiếm" />
     </div>
 
     <!-- Select All -->
-    <div class="select-all">
+    <div *ngIf="filteredTreeData.length > 0" class="select-all">
       <input type="checkbox" [checked]="isAllSelected()" (change)="toggleSelectAll()" />
-      <span>Chọn tất cả</span>
+      <span>Tất cả ({{totalValueParent}})</span>
     </div>
 
     <!-- Tree Structure -->
     <ul class="tree">
       <li *ngFor="let node of filteredTreeData">
         <div class="tree-node">
-          <input type="checkbox" [checked]="isNodeSelected(node)" [indeterminate]="isNodeIndeterminate(node)"
-            (change)="toggleNodeSelection(node)" />
-          <span>{{ node.label }}</span>
+          <!-- Toggle Icon -->
+          <i class="fa-solid" [class.fa-caret-right]="!node.expanded" [class.fa-caret-down]="node.expanded"
+            *ngIf="node.children && node.children.length > 0" (click)="toggleNodeExpand(node)">
+          </i>
+          <span class="placeholder" *ngIf="!node.children || node.children.length === 0"></span>
+
+          <input type="checkbox" [checked]="isNodeSelected(node)" (change)="toggleNodeSelection(node)"
+            [indeterminate]="isNodeIndeterminate(node)" />
+
+          <!-- Label của node cha -->
+          <div class="tree-node-label">
+            <span class="highlight-box">{{ node.label }}</span>
+          </div>
         </div>
-        <ul *ngIf="node.children?.length > 0">
+
+        <!-- Child Nodes -->
+        <ul *ngIf="node.expanded && node.children && node.children.length > 0">
           <li *ngFor="let child of node.children">
-            <div class="tree-node">
-              <input type="checkbox" [checked]="isNodeSelected(child)" (change)="toggleNodeSelection(child)" />
+            <div class="tree-node child-node">
+              <input type="checkbox" [checked]="isNodeSelected(child)" (change)="toggleNodeSelection(child)"
+                [indeterminate]="isNodeIndeterminate(child)" />
               <span>{{ child.label }}</span>
             </div>
           </li>
         </ul>
+      </li>
+
+      <li *ngIf="filteredTreeData.length === 0" class="no-results">
+        Không có dữ liệu
       </li>
     </ul>
   </div>

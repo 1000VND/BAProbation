@@ -1,0 +1,39 @@
+<div class="multiselect-container" [class.active]="isOpen">
+  <!-- Header/Display area with integrated search -->
+  <div class="multiselect-header">
+    <div class="multiselect-selected-text">
+      <input type="text" [placeholder]="placeholder" [(ngModel)]="searchText" (input)="filterOptions()"
+        (focus)="onInputFocus()" (click)="$event.stopPropagation()"
+        [value]="isForcus ? searchText : selectedDisplay">
+    </div>
+    <div class="multiselect-arrow" [class.open]="isOpen" (click)="toggleDropdown($event)">
+      <i class="fa-solid" [class.fa-caret-down]="!isOpen" [class.fa-caret-up]="isOpen"></i>
+    </div>
+  </div>
+
+  <!-- Dropdown area -->
+  <div class="multiselect-dropdown" *ngIf="isOpen">
+    <!-- Select all option -->
+    <div *ngIf="filteredOptions.length > 0 && !isSearching" class="multiselect-item select-all">
+      <label>
+        <input type="checkbox" [checked]="areAllSelected()" [indeterminate]="isIndeterminate()"
+          (change)="toggleSelectAll()">
+        <span>Tất cả ({{ options.length }})</span>
+      </label>
+    </div>
+
+    <!-- Options list -->
+    <div class="multiselect-items">
+      <div *ngFor="let option of filteredOptions" class="multiselect-item">
+        <label>
+          <input type="checkbox" [checked]="isSelected(option)" (change)="toggleOption(option)">
+          <span>{{ option.label }}</span>
+        </label>
+      </div>
+
+      <div *ngIf="filteredOptions.length === 0" class="no-results">
+        Không có dữ liệu
+      </div>
+    </div>
+  </div>
+</div>

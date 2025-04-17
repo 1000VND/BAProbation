@@ -1,0 +1,127 @@
+.multiselect-container {
+    position: relative;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    user-select: none;
+
+    &.active {
+        .multiselect-header {
+            border-color: #007bff;
+        }
+    }
+}
+
+.multiselect-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    min-height: 38px;
+
+    &:hover {
+        border-color: #b8b8b8;
+    }
+}
+
+.multiselect-selected-text {
+    flex: 1;
+
+    input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: 0;
+        color: #495057;
+
+        &::placeholder {
+            color: #6c757d;
+        }
+    }
+}
+
+.multiselect-arrow {
+    margin-left: 8px;
+
+    i {
+        transition: transform 0.2s ease;
+    }
+
+    &.open i {
+        transform: rotate(180deg);
+    }
+}
+
+.multiselect-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 3px;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.multiselect-search {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+
+    input {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+
+        &:focus {
+            outline: none;
+            border-color: #80bdff;
+        }
+    }
+}
+
+.multiselect-items {
+    overflow-y: auto;
+    max-height: 220px;
+    padding: 0.25rem 0.25rem;
+}
+
+.multiselect-item {
+    padding: 8px 12px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f8f9fa;
+    }
+
+    &.select-all {
+        font-weight: 500;
+        border-bottom: 1px solid #eee;
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        cursor: pointer;
+        width: 100%;
+
+        input {
+            margin-right: 8px;
+        }
+    }
+}
+
+.no-results {
+    padding: 0.5rem 0.75rem
+}

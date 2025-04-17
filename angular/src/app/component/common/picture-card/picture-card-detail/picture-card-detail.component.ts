@@ -12,8 +12,6 @@ import { Pagination } from '../../../../models/common';
   styleUrls: ['./picture-card-detail.component.scss']
 })
 export class PictureCardDetailComponent implements OnInit {
-  @ViewChild('mediaComponent') mediaComponent: MediaPhotoComponent | undefined;
-
   @Input() show: boolean = false;
   @Input() pictures: PictureVehicle[] = [];
   @Input() pagination: Pagination = { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };

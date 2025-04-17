@@ -8,8 +8,16 @@ export interface GetDataTreeDto {
     parentId: number;
     label: string;
     key: string;
+    countChildren?: number;
 }
 
+export interface TreeNode {
+    label: string;
+    data: number;
+    children?: TreeNode[];
+    expanded?: boolean;
+    parent?: TreeNode;
+}
 export interface Pagination {
     currentPage: number;
     itemsPerPage: number;

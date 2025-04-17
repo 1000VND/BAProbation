@@ -44,7 +44,7 @@ $green-color: #42a948;
 
 .multiple-container {
     min-width: 160px;
-    width: 230px;
+    width: 100%;
 }
 
 .row-cols-4>* {
@@ -60,8 +60,9 @@ $green-color: #42a948;
 }
 
 .col-custom {
-    flex: 0 1 0;
-    max-width: 100%;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: fit-content;
 }
 
 .pool-image {

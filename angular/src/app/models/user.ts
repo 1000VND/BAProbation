@@ -12,10 +12,3 @@ export interface UserDto {
     userNameLower: string,
     fullname: string
 }
-
-export interface TreeNode {
-    name: string;
-    selected: boolean;
-    children: TreeNode[];  // Mảng các node con
-    parent: TreeNode | null;  // Tham chiếu tới node cha hoặc null nếu không có cha
-}

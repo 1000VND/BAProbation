@@ -8,12 +8,12 @@
         (onNodeSelect)="onNodeSelect($event, 'select')" (onNodeUnselect)="onNodeSelect($event, 'unselect')"
         [emptyMessage]="emptyMessage">
       </p-treeselect> -->
-      <ba-tree-multiselect></ba-tree-multiselect>
+      <ba-tree-multiselect [data]="dataTree" (ngOnChange)="getVehicleGroupById($event)"></ba-tree-multiselect>
     </div>
 
     <div class="col p-0">
       <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" (onChange)="onChangeVehicle($event)"
-        placeholder="Danh sách xe" [emptyMessage]="emptyMessage" [style]="{ 'min-width': '160px', 'width': '100%' }">
+        placeholder="Danh sách xe" [emptyMessage]="emptyMessage" [style]="{ 'min-width': '300px', 'width': '100%' }">
       </p-select>
     </div>
 
@@ -22,6 +22,8 @@
         <ba-multiselect [dataSelect]="channels" [(ngModel)]="selectedChannels" [defaultLabel]="'Chọn kênh'"
           (onChangeValue)="onChangeValueChannel($event)">
         </ba-multiselect>
+        <!-- <ba-multiselect-pure [options]="channels" (selectionChange)="onChangeValueChannel($event)">
+        </ba-multiselect-pure> -->
       </div>
     </div>
 
@@ -31,19 +33,19 @@
       </p-select>
     </div>
 
-    <div class="col p-0">
+    <div class="col-custom p-0">
       <p-datepicker [(ngModel)]="date" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"
-        [dateFormat]="'dd/mm/yy'" [minDate]="minDate">
+        [dateFormat]="'dd/mm/yy'" [minDate]="minDate" [maxDate]="maxDate">
       </p-datepicker>
     </div>
 
-    <div class="col p-0">
+    <div class="col-custom p-0">
       <p-datepicker class="timeonly" [(ngModel)]="timeFrom" [showIcon]="true" inputId="buttondisplay"
         [showOnFocus]="false" [timeOnly]="true" icon="pi pi-clock" (ngModelChange)="validateTimes()">
       </p-datepicker>
     </div>
 
-    <div class="col p-0">
+    <div class="col-custom p-0">
       <p-datepicker class="timeonly" [(ngModel)]="timeTo" [showIcon]="true" inputId="buttondisplay"
         [showOnFocus]="false" [timeOnly]="true" icon="pi pi-clock" (ngModelChange)="validateTimes()">
       </p-datepicker>
@@ -98,3 +100,4 @@
     <ba-pagination [currentPage]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
       [totalItems]="pagination.totalItems" (pageChange)="onPageChange($event)"></ba-pagination>
   </div>
+</div>
