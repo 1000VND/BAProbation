@@ -2,6 +2,8 @@
   <h5 class="text-primary font-weight-bold m-2">XEM ẢNH PHƯƠNG TIỆN</h5>
 
   <div class="row row-cols-auto gap-2 mx-2">
+
+    <!-- Nhóm phương tiện -->
     <div class="col p-0">
       <!-- <p-treeselect [(ngModel)]="selectedGroup" [options]="nodeGroups" selectionMode="checkbox" [filter]="true"
         filterPlaceholder="Tìm kiếm" display="chip" placeholder="Chọn nhóm phương tiện"
@@ -11,12 +13,14 @@
       <ba-tree-multiselect [data]="dataTree" (ngOnChange)="getVehicleGroupById($event)"></ba-tree-multiselect>
     </div>
 
+    <!-- Phương tiện -->
     <div class="col p-0">
       <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" (onChange)="onChangeVehicle($event)"
         placeholder="Danh sách xe" [emptyMessage]="emptyMessage" [style]="{ 'min-width': '300px', 'width': '100%' }">
       </p-select>
     </div>
 
+    <!-- Kênh -->
     <div class="col p-0">
       <div class="multiple-container h-100">
         <ba-multiselect [dataSelect]="channels" [(ngModel)]="selectedChannels" [defaultLabel]="'Chọn kênh'"
@@ -27,30 +31,35 @@
       </div>
     </div>
 
+    <!-- Trạng thái -->
     <div class="col p-0">
       <p-select [options]="sortPhotos" [(ngModel)]="selectedSortPhoto"
         [style]="{ 'min-width': '200px', 'width': '100%' }">
       </p-select>
     </div>
 
+    <!-- Ngày -->
     <div class="col-custom p-0">
       <p-datepicker [(ngModel)]="date" [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false"
         [dateFormat]="'dd/mm/yy'" [minDate]="minDate" [maxDate]="maxDate">
       </p-datepicker>
     </div>
 
+    <!-- Thời gian -->
     <div class="col-custom p-0">
       <p-datepicker class="timeonly" [(ngModel)]="timeFrom" [showIcon]="true" inputId="buttondisplay"
         [showOnFocus]="false" [timeOnly]="true" icon="pi pi-clock" (ngModelChange)="validateTimes()">
       </p-datepicker>
     </div>
 
+    <!-- Thời gian -->
     <div class="col-custom p-0">
       <p-datepicker class="timeonly" [(ngModel)]="timeTo" [showIcon]="true" inputId="buttondisplay"
         [showOnFocus]="false" [timeOnly]="true" icon="pi pi-clock" (ngModelChange)="validateTimes()">
       </p-datepicker>
     </div>
 
+    <!-- Tìm kiếm -->
     <div class="col-custom p-0">
       <button type="button" class="btn d-flex align-items-center justify-content-center text-white h-100 px-2"
         style="background-color: #0959a0; white-space: nowrap;" (click)="search()">
@@ -58,6 +67,7 @@
       </button>
     </div>
 
+    <!-- Số ảnh hiển thị -->
     <div class="col-custom p-0">
       <button type="button" class="btn d-flex align-items-center justify-content-center text-white h-100 px-2"
         [ngStyle]="{ 'background-color': numberPictureDisplay === 4 ? '#0959a0' : '#939eb0' }"
@@ -91,11 +101,13 @@
     </div>
   </div>
 
+  <!-- Hiển thị thông báo không có ảnh -->
   <div class="row pool-image m-2 gap-2 justify-content-center align-items-center" *ngIf="pictures.length === 0">
     <img class="icon-empty-content" src="icons8-empty-100.png">
     {{emptyMessage}}
   </div>
 
+  <!-- Hiển thị phân trang -->
   <div class="row mx-2 mt-2 mb-0 justify-content-center align-items-center">
     <ba-pagination [currentPage]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
       [totalItems]="pagination.totalItems" (pageChange)="onPageChange($event)"></ba-pagination>
