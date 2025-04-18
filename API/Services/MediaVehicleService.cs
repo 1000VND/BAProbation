@@ -207,10 +207,6 @@ namespace API.Services
                 {
                     throw new ArgumentException("Kích thước trang phải lớn hơn 0 và không vượt quá 100.");
                 }
-                else if (data.Channels == null || !data.Channels.Any())
-                {
-                    throw new ArgumentException("Danh sách kênh không được để trống.");
-                }
                 else if (data.OrderBy <= 0 || data.OrderBy >= 3)
                 {
                     throw new ArgumentException("Không tìm thấy loại sắp xếp ảnh");

@@ -34,7 +34,9 @@ export class MediaPhotoComponent implements OnInit {
     'Bãi đổ 29 Liễu Giai, Ba Đình',
     'Bãi đổ gầm cầu vượt Ngã Tư Sở',
     'Bãi đổ trước cổng Hacinco',
-    'Bãi đổ tại tòa nhà Syrena'
+    'Bãi đổ tại tòa nhà Syrena',
+    'Bãi đổ xe ô tô nằm tại gầm Cầu Chương Dương',
+    'Bãi đổ xe ô tô tại 2VJ6+C6F, Chương Dương Độ, Hoàn Kiếm'
   ]
   emptyMessage = 'Không có dữ liệu';
   date: Date = new Date();
@@ -61,6 +63,7 @@ export class MediaPhotoComponent implements OnInit {
     this.minDate.setDate(this.minDate.getDate() - 30);
     this.maxDate.setDate(this.maxDate.getDate());
     this.getGroups();
+    this.getVehicleGroupById([0]);
   }
 
   /**
@@ -154,9 +157,6 @@ export class MediaPhotoComponent implements OnInit {
     if (!this.selectedVehicle) {
       this._toastr.error('Vui lòng chọn xe');
       return false;
-    } else if (this.selectedChannels?.length == 0) {
-      this._toastr.error('Vui lòng chọn kênh');
-      return false;
     } else if (!this.date) {
       this._toastr.error('Vui lòng chọn ngày');
       return false;
@@ -200,9 +200,9 @@ export class MediaPhotoComponent implements OnInit {
       next: (res) => {
         this.pictures = res.result ?? [];
 
-        const randomIndex = Math.floor(Math.random() * this.poolAddress.length);
-
         this.pictures.forEach(item => {
+          const randomIndex = Math.floor(Math.random() * this.poolAddress.length);
+
           item.address = this.poolAddress[randomIndex];
         });
 
