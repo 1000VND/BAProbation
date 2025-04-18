@@ -34,7 +34,7 @@
       style="background-color: #191919;">
 
       <!-- Xem ảnh tự động -->
-      <button class="bg-transparent text-white border-0" (click)="autoSlideImage()">
+      <button class="bg-transparent text-white border-0 p-0" (click)="autoSlideImage()">
         <i class="fa-solid" [class.fa-play]="!autoViewImage" [class.fa-pause]="autoViewImage"></i> Xem ảnh tự động
       </button>
 
@@ -43,7 +43,7 @@
       </span>
     </div>
     <div class="info-vehicle-container">
-      <div class="row m-0 px-2 justify-content-between align-items-center text-white">
+      <div class="row m-0 justify-content-between align-items-center text-white">
         <!-- Biển số xe -->
         <div class="col-md-8 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-car-48.png">
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="row m-0 px-2 pt-2 justify-content-between align-items-center text-white">
+      <div class="row m-0 pt-2 justify-content-between align-items-center text-white">
         <!-- Kênh -->
         <div class="col-md-3 p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-video-48.png">
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Tên tài xế -->
-        <div class="col-md-3 p-0 item-info-vehicle">
+        <div class="col-md-auto p-0 item-info-vehicle">
           <img class="icon-vehicle-detail" src="icons8-name-48.png">
           {{ picture.driverName }}
         </div>
@@ -84,7 +84,7 @@
       </div>
 
       <!-- Địa chỉ -->
-      <div class="row gap-2 m-0 px-2 pt-2 justify-content-start align-items-center text-white">
+      <div class="row gap-2 m-0 pt-2 justify-content-start align-items-center text-white">
         <img class="icon-vehicle-detail" src="icons8-location-48.png">
         {{picture.address}}
       </div>

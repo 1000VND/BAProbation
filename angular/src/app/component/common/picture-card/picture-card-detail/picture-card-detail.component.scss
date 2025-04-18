@@ -83,7 +83,7 @@
 
 .info-vehicle-container {
     background-color: #2f3542;
-    padding: 8px 0;
+    padding: 8px;
 
     .item-info-vehicle {
         display: flex;
@@ -94,5 +94,9 @@
 
     .icon-vehicle-detail {
         width: 25px;
+
+        &.cursor-pointer {
+            cursor: pointer;
+        }
     }
 }
