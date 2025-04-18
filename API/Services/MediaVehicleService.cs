@@ -11,6 +11,7 @@ namespace API.Services
 {
     public class MediaVehicleService : IMediaVehicleService
     {
+        public static int CompanyId = 15076;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
@@ -40,7 +41,8 @@ namespace API.Services
             {
                 var data = await (from g in _context.Groups
                                   join v in _context.VehicleGroups.Where(e => e.IsDeleted == null || e.IsDeleted == false) on g.PK_VehicleGroupID equals v.FK_VehicleGroupID into gv
-                                  where g.IsDeleted == null || g.IsDeleted == false
+                                  where (g.IsDeleted == null || g.IsDeleted == false)
+                                        && g.FK_CompanyID == CompanyId
                                   select new GroupDto
                                   {
                                       PK_VehicleGroupID = g.PK_VehicleGroupID,
@@ -80,6 +82,8 @@ namespace API.Services
                                      && (vg.IsDeleted == null || vg.IsDeleted == false)
                                      && (v.IsDeleted == null || v.IsDeleted == false)
                                      && (v.IsLocked == null || v.IsLocked == false)
+                                     && g.FK_CompanyID == CompanyId && v.FK_CompanyID == CompanyId
+                                     && vg.FK_CompanyID == CompanyId
                                      && ((groupIds.Count == 1 && groupIds[0] == 0) || groupIds.Contains(g.PK_VehicleGroupID))
                                   select v).Distinct().ToListAsync();
 
