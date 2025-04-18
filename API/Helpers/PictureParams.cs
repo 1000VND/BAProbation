@@ -2,6 +2,7 @@
 {
     public class PictureParams : PaginationParams
     {
+        public int CustomerId { get; set; }
         public required string VehicleName { get; set; }
         public required List<int> Channels { get; set; }
         public int OrderBy { get; set; } = 0; // 0: Tăng dần, 1: Giảm dần

@@ -13,7 +13,7 @@ import { ComboboxDto, GetDataTreeDto, Pagination } from '../../models/common';
 })
 export class MediaPhotoComponent implements OnInit {
   dataTree: GetDataTreeDto[] = [];
-  vehicles: { label: string, value: string }[] = [];
+  vehicles: { label: string; value: string; customerId: number }[] = [];
   selectedVehiclePlate: string = '';
   channels: ComboboxDto[] = [];
   sortPhotos: ComboboxDto[] = [
@@ -90,16 +90,23 @@ export class MediaPhotoComponent implements OnInit {
    * @param groupId Id nhóm xe
    */
   getVehicleGroupById(groupId: number[]) {
+    const body = this.dataTree.length == groupId.length ? [0] : groupId;
+
     this._loadingService.show();
-    this._mediaVehicleService.getVehicleGroupById(groupId).pipe(finalize(() => {
+    this._mediaVehicleService.getVehicleGroupById(body).pipe(finalize(() => {
       this._loadingService.hide();
-    })).subscribe((res) => {
-      this.vehicles = res.map(item => {
-        return {
-          label: item.plateAndCode,
-          value: item.vehiclePlate
-        }
-      });
+    })).subscribe({
+      next: (res) => {
+        this.vehicles = res.map(item => {
+          return {
+            label: item.plateAndCode,
+            value: item.vehiclePlate,
+            customerId: item.xnCode
+          }
+        });
+      }, error: () => {
+        this._toastr.error('Có lỗi xảy ra khi tải dữ liệu xe');
+      }
     });
   }
 
@@ -169,11 +176,13 @@ export class MediaPhotoComponent implements OnInit {
       return;
     }
 
+    const customerId = this.vehicles.find(e => e.value == this.selectedVehicle)?.customerId ?? 0;
     const channels = this.selectAllChannels ? this.channels.map(item => item.value) : this.selectedChannels;
     const startTime = new Date(this.date.setHours(this.timeFrom.getHours(), this.timeFrom.getMinutes(), 0, 0));
     const endTime = new Date(this.date.setHours(this.timeTo.getHours(), this.timeTo.getMinutes(), 59, 59));
 
     const body: PictureParams = {
+      customerId: customerId,
       vehicleName: this.selectedVehicle ? this.selectedVehicle.toString() : '',
       channels: channels ?? [],
       startTime: startTime,
@@ -187,17 +196,20 @@ export class MediaPhotoComponent implements OnInit {
 
     this._mediaVehicleService.getPictureByVehiclePlate(body).pipe(finalize(() => {
       this._loadingService.hide();
-    })).subscribe(res => {
+    })).subscribe({
+      next: (res) => {
+        this.pictures = res.result ?? [];
 
-      this.pictures = res.result ?? [];
+        const randomIndex = Math.floor(Math.random() * this.poolAddress.length);
 
-      const randomIndex = Math.floor(Math.random() * this.poolAddress.length);
+        this.pictures.forEach(item => {
+          item.address = this.poolAddress[randomIndex];
+        });
 
-      this.pictures.forEach(item => {
-        item.address = this.poolAddress[randomIndex];
-      });
-
-      this.pagination = res.pagination ?? { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };
+        this.pagination = res.pagination ?? { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };
+      }, error: () => {
+        this._toastr.error('Có lỗi xảy ra khi tải dữ liệu ảnh');
+      }
     })
   }
 
@@ -241,6 +253,4 @@ export class MediaPhotoComponent implements OnInit {
     const shuffledChannels = [...channels].sort(() => Math.random() - 0.5);
     return shuffledChannels.slice(0, numberOfChannels).sort((a, b) => a.value - b.value);
   }
-
-
 }

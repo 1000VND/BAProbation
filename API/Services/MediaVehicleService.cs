@@ -92,6 +92,7 @@ namespace API.Services
                     var vehicle = new VehicleGroupDto()
                     {
                         VehiclePlate = item.VehiclePlate,
+                        XNCode = item.XNCode,
                         PlateAndCode = item.PrivateCode.Equals(item.VehiclePlate)
                                         ? item.PrivateCode : item.PrivateCode + " (" + item.VehiclePlate + ")"
                     };
@@ -133,7 +134,7 @@ namespace API.Services
                     // Dữ liệu gửi đi
                     var requestBody = new
                     {
-                        CustomerId = 7643,
+                        CustomerId = pictureParams.CustomerId,
                         VehicleName = pictureParams.VehicleName,
                         Channels = pictureParams.Channels,
                         StartTime = pictureParams.StartTime,

@@ -8,6 +8,7 @@ export interface GetAllVehicleGroupDto {
 export interface VehicleDto {
     vehiclePlate: string;
     plateAndCode: string;
+    xnCode: number;
 }
 
 export interface PictureVehicle {
@@ -21,6 +22,7 @@ export interface PictureVehicle {
 }
 
 export interface PictureParams {
+    customerId: number;
     vehicleName: string;
     channels: number[];
     startTime: Date;

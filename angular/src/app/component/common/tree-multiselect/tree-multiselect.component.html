@@ -8,7 +8,7 @@
   <!-- Dropdown Content -->
   <div class="dropdown-content" [class.open]="dropdownOpen">
     <!-- Tìm kiếm -->
-    <div *ngIf="filteredTreeData.length > 0" class="search-box">
+    <div class="search-box">
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" [(ngModel)]="searchTerm" (input)="filterTree()" placeholder="Tìm kiếm" />
     </div>

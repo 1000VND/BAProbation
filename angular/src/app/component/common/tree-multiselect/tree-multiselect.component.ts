@@ -23,11 +23,11 @@ export class TreeMultiselectComponent implements OnInit {
   totalValueParent = 0;
 
   get selectedItemsDisplay(): string {
-    if (this.selectedNodes.length >= 3) {
-      return `Đã chọn ${this.selectedNodes.length} nhóm`;
+    if (this.selectedItems.length >= 2) {
+      return `Đã chọn ${this.selectedItems.length} nhóm`;
     }
 
-    return this.selectedNodes.length > 0
+    return this.selectedItems.length > 0
       ? this.selectedNodes.map(node => node.label).join(', ')
       : 'Chọn nhóm phương tiện';
   }
@@ -80,8 +80,8 @@ export class TreeMultiselectComponent implements OnInit {
    * @param node 
    */
   unselectNode(node: TreeNode) {
-    this.selectedItems = this.selectedItems.filter(item => item !== node.data);
-    this.selectedNodes = this.selectedNodes.filter(item => item.data !== node.data);
+    this.selectedItems = this.selectedItems.filter(item => item !== node.data && item !== 0);
+    this.selectedNodes = this.selectedNodes.filter(item => item.data !== node.data && item.data !== 0);
     node.children?.forEach(child => this.unselectNode(child)); // Bỏ chọn tất cả các node con
     this.updateParentState(node); // Cập nhật trạng thái của node cha
     this.emitSelectedItems();
@@ -98,8 +98,8 @@ export class TreeMultiselectComponent implements OnInit {
       this.clearAllSelections(this.filteredTreeData);
     } else {
       // Chọn tất cả
-      this.selectedItems = [0];
       this.selectedNodes = this.getAllNodes(this.filteredTreeData);
+      this.selectedItems = this.selectedNodes.map(node => node.data);
       this.selectAllNodes(this.filteredTreeData);
     }
 
@@ -201,7 +201,7 @@ export class TreeMultiselectComponent implements OnInit {
    */
   private selectAllNodes(nodes: TreeNode[]) {
     nodes.forEach(node => {
-      if (!this.isNodeSelected(node)) {
+      if (!this.isNodeSelected(node) && node.data !== 0) {
         this.selectedItems.push(node.data);
         this.selectedNodes.push(node);
       }

@@ -11,7 +11,8 @@
       <!-- Phương tiện -->
       <div class="col p-0">
         <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" (onChange)="onChangeVehicle($event)"
-          placeholder="Danh sách xe" [emptyMessage]="emptyMessage" [style]="{ 'min-width': '300px', 'width': '100%' }">
+          placeholder="Danh sách xe" [virtualScroll]="true" [virtualScrollItemSize]="38" [emptyMessage]="emptyMessage"
+          [style]="{ 'min-width': '300px', 'width': '100%' }">
         </p-select>
       </div>
 
