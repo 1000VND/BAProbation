@@ -126,6 +126,8 @@ namespace API.Services
         {
             try
             {
+                ValidateData(pictureParams);
+
                 using (var httpClient = new HttpClient())
                 {
                     // Địa chỉ API
@@ -189,6 +191,31 @@ namespace API.Services
             }
         }
 
-
+        private void ValidateData(PictureParams data)
+        {
+            if (data != null)
+            {
+                if (data.StartTime >= data.EndTime)
+                {
+                    throw new ArgumentException("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
+                }
+                else if (data.PageNumber <= 0)
+                {
+                    throw new ArgumentException("Số trang phải lớn hơn 0.");
+                }
+                else if (data.PageSize <= 0 || data.PageSize > 100)
+                {
+                    throw new ArgumentException("Kích thước trang phải lớn hơn 0 và không vượt quá 100.");
+                }
+                else if (data.Channels == null || !data.Channels.Any())
+                {
+                    throw new ArgumentException("Danh sách kênh không được để trống.");
+                }
+                else if (data.OrderBy <= 0 || data.OrderBy >= 3)
+                {
+                    throw new ArgumentException("Không tìm thấy loại sắp xếp ảnh");
+                }
+            }
+        }
     }
 }
