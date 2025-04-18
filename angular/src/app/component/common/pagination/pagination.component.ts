@@ -52,13 +52,13 @@ export class PaginationComponent implements OnInit {
     } else {
       // Hiển thị các trang với dấu "..." nếu tổng số trang lớn hơn 7
       if (this.currentPage <= 4) {
-        // Case 1: Current page is near the beginning
+        // Case 1: Đang ở đầu danh sách trang
         this.visiblePages = [1, 2, 3, 4, 5, '...', this.totalPages];
       } else if (this.currentPage >= this.totalPages - 3) {
-        // Case 2: Current page is near the end
+        // Case 2: Đang ở cuối danh sách trang
         this.visiblePages = [1, '...', this.totalPages - 4, this.totalPages - 3, this.totalPages - 2, this.totalPages - 1, this.totalPages];
       } else {
-        // Case 3: Current page is in the middle
+        // Case 3: Đang ở giữa danh sách trang
         this.visiblePages = [1, '...', this.currentPage - 1, this.currentPage, this.currentPage + 1, '...', this.totalPages];
       }
     }

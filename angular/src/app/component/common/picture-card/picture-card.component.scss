@@ -8,19 +8,10 @@
 
     .card-body {
         padding: 5px 5px;
-
-        .btn-download {
-            background-color: #4DB6AC;
-            border: none;
-            border-radius: 50%;
-            width: 1.5rem;
-            height: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-        }
+    }
+    
+    .cursor-pointer{
+        cursor: pointer;
     }
 }
 

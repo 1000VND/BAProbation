@@ -7,23 +7,23 @@
 
   <!-- Dropdown Content -->
   <div class="dropdown-content" [class.open]="dropdownOpen">
-    <!-- Search Box -->
+    <!-- Tìm kiếm -->
     <div *ngIf="filteredTreeData.length > 0" class="search-box">
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" [(ngModel)]="searchTerm" (input)="filterTree()" placeholder="Tìm kiếm" />
     </div>
 
-    <!-- Select All -->
+    <!-- Chọn tất cả -->
     <div *ngIf="filteredTreeData.length > 0" class="select-all">
       <input type="checkbox" [checked]="isAllSelected()" (change)="toggleSelectAll()" />
       <span>Tất cả ({{totalValueParent}})</span>
     </div>
 
-    <!-- Tree Structure -->
+    <!-- Tree -->
     <ul class="tree">
       <li *ngFor="let node of filteredTreeData">
         <div class="tree-node">
-          <!-- Toggle Icon -->
+          <!-- Mở rộng hoặc thu gọn các node trong cây -->
           <i class="fa-solid" [class.fa-caret-right]="!node.expanded" [class.fa-caret-down]="node.expanded"
             *ngIf="node.children && node.children.length > 0" (click)="toggleNodeExpand(node)">
           </i>
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <!-- Child Nodes -->
+        <!-- Tất cả node con -->
         <ul *ngIf="node.expanded && node.children && node.children.length > 0">
           <li *ngFor="let child of node.children">
             <div class="tree-node child-node">

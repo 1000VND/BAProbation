@@ -14,9 +14,8 @@ export class AppComponent {
     private accountService: AccountService,
     private router: Router
   ) {
-    this.autoLogin();
-
-    this.setLanguage();
+    // this.autoLogin();
+    // this.setLanguage();
   }
 
   /**

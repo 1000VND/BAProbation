@@ -4,7 +4,7 @@ import { MeidaVehicleService } from '../../services/media-vehicle.service';
 import { PictureParams, PictureVehicle } from '../../models/vehicle-group';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ComboboxDto, GetDataTreeDto, Pagination, PaginationParams } from '../../models/common';
+import { ComboboxDto, GetDataTreeDto, Pagination } from '../../models/common';
 
 @Component({
   selector: 'media-photo',
@@ -41,7 +41,7 @@ export class MediaPhotoComponent implements OnInit {
   minDate: Date = new Date();
   maxDate: Date = new Date();
   timeFrom: Date = new Date(new Date().setHours(0, 0, 0, 0));
-  timeTo: Date = new Date(new Date().setHours(23, 59, 0, 0));
+  timeTo: Date = new Date(new Date().setHours(23, 59, 59, 59));
   selectedGroup: number[] = [];
   selectedVehicle: string | undefined;
   selectedChannels: number[] | undefined;
@@ -49,7 +49,6 @@ export class MediaPhotoComponent implements OnInit {
   selectedSortPhoto: number = 1;
   numberPictureDisplay: number = 6;
   pagination: Pagination = { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };
-  paginationParams: PaginationParams | undefined;
   pictures: PictureVehicle[] = [];
 
   constructor(
@@ -135,7 +134,7 @@ export class MediaPhotoComponent implements OnInit {
       if (fromTime > toTime) {
         this._toastr.error('Thời gian bắt đầu không được lớn hơn thời gian kết thúc');
         this.timeFrom = new Date(new Date().setHours(0, 0, 0, 0));
-        this.timeTo = new Date(new Date().setHours(23, 59, 0, 0));
+        this.timeTo = new Date(new Date().setHours(23, 59, 59, 59));
       }
     }
   }
@@ -171,28 +170,33 @@ export class MediaPhotoComponent implements OnInit {
     }
 
     const channels = this.selectAllChannels ? this.channels.map(item => item.value) : this.selectedChannels;
+    const startTime = new Date(this.date.setHours(this.timeFrom.getHours(), this.timeFrom.getMinutes(), 0, 0));
+    const endTime = new Date(this.date.setHours(this.timeTo.getHours(), this.timeTo.getMinutes(), 59, 59));
 
     const body: PictureParams = {
       vehicleName: this.selectedVehicle ? this.selectedVehicle.toString() : '',
       channels: channels ?? [],
-      startTime: new Date(this.date.setHours(this.timeFrom.getHours(), this.timeFrom.getMinutes(), 0, 0)),
-      endTime: new Date(this.date.setHours(this.timeTo.getHours(), this.timeTo.getMinutes(), 59, 59)),
+      startTime: startTime,
+      endTime: endTime,
       orderBy: this.selectedSortPhoto,
-      pageNumber: this.paginationParams ? this.paginationParams.pageNumber : this.pagination.currentPage,
-      pageSize: this.paginationParams ? this.paginationParams.pageSize : this.pagination.itemsPerPage
+      pageNumber: this.pagination.currentPage,
+      pageSize: this.pagination.itemsPerPage
     };
 
     this._loadingService.show();
+
     this._mediaVehicleService.getPictureByVehiclePlate(body).pipe(finalize(() => {
       this._loadingService.hide();
     })).subscribe(res => {
 
       this.pictures = res.result ?? [];
 
+      const randomIndex = Math.floor(Math.random() * this.poolAddress.length);
+
       this.pictures.forEach(item => {
-        const randomIndex = Math.floor(Math.random() * this.poolAddress.length);
         item.address = this.poolAddress[randomIndex];
-      })
+      });
+
       this.pagination = res.pagination ?? { currentPage: 1, itemsPerPage: 50, totalItems: 0, totalPages: 0 };
     })
   }
@@ -228,7 +232,7 @@ export class MediaPhotoComponent implements OnInit {
    * @param channels Danh sách kênh
    * @returns random channels 
    */
-  private getRandomChannels(channels: { label: string; value: number }[]): { label: string; value: number }[] {
+  private getRandomChannels(channels: ComboboxDto[]): ComboboxDto[] {
     const minChannels = 1;
     const maxChannels = 4;
     const numberOfChannels = Math.floor(Math.random() * (maxChannels - minChannels + 1)) + minChannels;

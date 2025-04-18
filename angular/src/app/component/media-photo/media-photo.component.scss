@@ -1,14 +1,6 @@
 $green-color: #42a948;
 
 :host::ng-deep {
-    .p-treeselect-label {
-        width: 300px;
-    }
-
-    .p-tree-node-checkbox {
-        display: flex;
-    }
-
     .p-select {
         border-left: 5px solid $green-color;
 
@@ -22,7 +14,6 @@ $green-color: #42a948;
 
     .p-datepicker>input {
         border-left: 5px solid $green-color;
-
     }
 
     .p-datepicker.p-focus>input,
@@ -42,30 +33,48 @@ $green-color: #42a948;
     }
 }
 
-.multiple-container {
-    min-width: 160px;
-    width: 100%;
-}
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 
-.row-cols-4>* {
-    max-width: calc(25% - 6px);
-}
+    .header {
+        flex: 0 0 auto;
 
-.row-cols-5>* {
-    max-width: calc(20% - 6.4px);
-}
+        .multiple-container {
+            min-width: 160px;
+            width: 100%;
+        }
 
-.row-cols-6>* {
-    max-width: calc(16.666667% - 6.7px);
-}
+        .col-custom {
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: fit-content;
+        }
+    }
 
-.col-custom {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: fit-content;
-}
+    .content {
+        flex: 1 1 auto;
+        overflow-y: auto;
 
-.pool-image {
-    overflow-y: auto;
-    max-height: 82vh;
+        .row-cols-4>* {
+            max-width: calc(25% - 6px);
+        }
+
+        .row-cols-5>* {
+            max-width: calc(20% - 6.4px);
+        }
+
+        .row-cols-6>* {
+            max-width: calc(16.666667% - 6.7px);
+        }
+
+        .pool-image {
+            max-height: 100%;
+        }
+    }
+
+    .footer {
+        flex: 0 0 auto;
+    }
 }

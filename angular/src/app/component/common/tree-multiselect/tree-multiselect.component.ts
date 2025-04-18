@@ -154,6 +154,10 @@ export class TreeMultiselectComponent implements OnInit {
     this.totalValueParent = this.countNodes(this.filteredTreeData);
   }
 
+  /**
+   * Mở rộng hoặc thu gọn các node trong cây
+   * @param node 
+   */
   toggleNodeExpand(node: TreeNode) {
     node.expanded = !node.expanded; // Đảo ngược trạng thái mở rộng
   }

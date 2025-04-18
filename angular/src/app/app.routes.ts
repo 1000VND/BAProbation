@@ -10,7 +10,7 @@ export const routes: Routes = [
     // { path: 'login', component: HomeComponent }, // Trang Login
     // { path: '**', redirectTo: 'login', pathMatch: 'full' }
 
-    { path: '', redirectTo: 'media-photo', pathMatch: 'full' }, // Chuyển hướng mặc định đến login
-    { path: 'media-photo', component: MediaPhotoComponent }, // Trang Login
+    { path: '', redirectTo: 'media-photo', pathMatch: 'full' },
+    { path: 'media-photo', component: MediaPhotoComponent },
     { path: '**', redirectTo: 'media-photo', pathMatch: 'full' }
 ];

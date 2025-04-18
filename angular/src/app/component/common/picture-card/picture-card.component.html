@@ -1,6 +1,6 @@
 <div class="card h-100" *ngIf="picture">
   <div class="card-img-wrapper">
-    <img src="{{picture.photoUrl || 'default-thumbnail.jpg'}}" alt="" class="card-img-top"
+    <img src="{{picture.photoUrl || 'default-thumbnail.jpg'}}" alt="" class="card-img-top cursor-pointer"
       (click)="detail.showModal()" />
 
     <div class="card-body">
@@ -16,16 +16,15 @@
           <img style="width: 1rem;" src="speed.ico" alt="speed icon" class="icon-speed" />
           <span class="ml-1 mr-2 text-muted" style="flex:none;">{{ picture.vehicleSpeed }} km/h</span>
 
-          <button class="btn-download" (click)="downloadFile(picture)">
-            <i class="pi pi-download"></i>
-          </button>
+          <img class="cursor-pointer" style="width: 20px" src="icons8-download-64.png" alt=""
+            (click)="downloadFile(picture)">
         </div>
       </div>
       <div class="row mx-0 my-2 align-items-center justify-content-start">
         <i class="fa-solid fa-video pr-2"></i> Kênh {{picture.vehicleChannel}}
       </div>
 
-      <div class="row mx-0 mt-2 align-items-center justify-content-start">
+      <div class="row mx-0 mt-2 align-items-center justify-content-start d-inline-block">
         <i class="fa-solid fa-location-dot pr-2"></i> {{picture.address}}
       </div>
     </div>
